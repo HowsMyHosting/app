@@ -1,24 +1,24 @@
-import { FormEventHandler } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { FormEventHandler } from "react";
+import Checkbox from "@/Components/Checkbox";
+import GuestLayout from "@/Layouts/GuestLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import Form from "@/Components/custom/Form";
+import SocialLogin from "./components/SocialLogin";
 
-export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
+export default function Login({ status }: { status?: string }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('login'), {
-            onFinish: () => reset('password'),
+        post(route("login"), {
+            onFinish: () => reset("password"),
         });
     };
 
@@ -26,68 +26,86 @@ export default function Login({ status, canResetPassword }: { status?: string, c
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-4 font-medium text-sm text-green-600">
+                    {status}
+                </div>
+            )}
 
-            <form onSubmit={submit}>
+            <h1 className="font-bold text-3xl text-center mb-2">
+                Welcome back! 👋
+            </h1>
+
+            <p className="text-center mb-7 text-sm">
+                Not a member?{" "}
+                <Link className="underline" href={route("register")}>
+                    Start a 7 day free trial
+                </Link>
+            </p>
+
+            <Form onSubmit={submit} isLoading={processing}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
+                    <Input
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        label="Email Address"
+                        errorMessage={errors.email}
                         autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
+                        autoFocus
+                        onChange={(e) => setData("email", e.target.value)}
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
+                    <Input
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        label="Password"
+                        errorMessage={errors.password}
+                        showPassword
                         autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
+                        onChange={(e) => setData("password", e.target.value)}
                     />
-
-                    <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ms-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
+                    <div className="flex items-center justify-between">
+                        <label className="flex items-center">
+                            <Checkbox
+                                name="remember"
+                                checked={data.remember}
+                                onChange={(e) =>
+                                    setData("remember", e.target.checked)
+                                }
+                            />
+                            <span className="ms-2 text-sm">Remember me</span>
+                        </label>
 
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
                         <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            href={route("password.request")}
+                            className="underline text-sm"
                         >
                             Forgot your password?
                         </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                    </div>
                 </div>
-            </form>
+
+                <div className="mt-6">
+                    <Button
+                        loadingText="Authenticating..."
+                        className="w-full"
+                        type="submit"
+                    >
+                        Sign in
+                    </Button>
+                </div>
+
+                <SocialLogin />
+            </Form>
         </GuestLayout>
     );
 }
