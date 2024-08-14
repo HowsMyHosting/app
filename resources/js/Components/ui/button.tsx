@@ -57,7 +57,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             size,
             rounded,
             isLoading = false,
-            loadingText = "Loading...",
+            loadingText,
             asChild = false,
             ...props
         },
@@ -76,7 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                             size={15}
                             className="mr-2 animate-spin"
                         />
-                        {loadingText}
+                        {loadingText ? loadingText : null}
                     </>
                 );
             }

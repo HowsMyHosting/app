@@ -1,3 +1,5 @@
-export default function ApplicationLogo() {
-    return <img src="images/logo.svg" width="162" />;
-}
+const ApplicationLogo = () => {
+    return <img src="/images/logo.svg" width="162" />;
+};
+
+export default ApplicationLogo;
