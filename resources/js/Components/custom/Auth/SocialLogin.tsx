@@ -1,6 +1,15 @@
 import { Button } from "@/Components/UI/Button";
+import { useState } from "react";
 
 const SocialLogin = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const loginWithDriver = (driver: string) => {
+        setIsLoading(true);
+
+        window.location.href = `/socialite/${driver}`;
+    };
+
     return (
         <div>
             <div className="relative mt-10">
@@ -17,11 +26,14 @@ const SocialLogin = () => {
 
             <div className="mt-6">
                 <Button
+                    isLoading={isLoading}
                     variant="secondary"
                     className="flex w-full items-center justify-center gap-3"
+                    type="button"
+                    onClick={() => loginWithDriver("google")}
                 >
                     <svg
-                        className="h-5 w-5"
+                        className="h-5 w-5 cursor-pointer"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
                     >
@@ -42,7 +54,7 @@ const SocialLogin = () => {
                             fill="#34A853"
                         />
                     </svg>
-                    <label className="text-sm leading-6 font-medium">
+                    <label className="text-sm leading-6 font-medium cursor-pointer">
                         Google
                     </label>
                 </Button>
