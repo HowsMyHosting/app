@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register/Show');
+        return Inertia::render('auth/register/show');
     }
 
     /**
@@ -46,7 +46,8 @@ class RegisteredUserController extends Controller
 
         return toastResponse(
             redirect: redirect(route('dashboard', absolute: false)),
-            message: __('auth.registered'),
+            message: __('general.success'),
+            description: __('auth.registered'),
         );
     }
 }

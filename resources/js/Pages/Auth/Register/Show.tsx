@@ -1,6 +1,6 @@
-import GuestLayout from "@/Layouts/GuestLayout";
+import GuestLayout from "@/layouts/guest-layout";
+import RegisterForm from "@/pages/auth/register/partials/register-form";
 import { Head, Link } from "@inertiajs/react";
-import RegisterForm from "@/Pages/Auth/Register/Partials/RegisterForm";
 
 const Show = () => {
     return (

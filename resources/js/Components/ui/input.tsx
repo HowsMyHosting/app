@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import InputLabel from "../InputLabel";
-import InputError from "../InputError";
-import { FormContext } from "@/Hooks/FormContext";
+import InputLabel from "@/components/input-label";
+import InputError from "@/components/input-error";
+import { FormContext } from "@/hooks/form-context";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 export interface InputProps

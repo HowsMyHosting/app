@@ -4,7 +4,11 @@
 
 body {
     font-family: "Inter", sans-serif;
-    color: #4f585a;
+    @apply text-gray-700;
+}
+
+.inter {
+    font-family: "Inter", sans-serif;
 }
 
 h1,
@@ -12,11 +16,11 @@ h2,
 h3,
 h4,
 h5 {
-    color: #1f2526;
+    @apply text-gray-900;
 }
 
 label {
-    color: #2b3233;
+    @apply text-gray-800;
 }
 
 html {

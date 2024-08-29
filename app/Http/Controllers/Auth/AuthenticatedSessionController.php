@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login/Show');
+        return Inertia::render('auth/login/show');
     }
 
     /**
@@ -31,7 +31,8 @@ class AuthenticatedSessionController extends Controller
 
         return toastResponse(
             redirect: redirect()->intended(route('dashboard', absolute: false)),
-            message: __('auth.success'),
+            message: __('auth.welcome'),
+            description: __('auth.success'),
         );
     }
 
@@ -48,7 +49,8 @@ class AuthenticatedSessionController extends Controller
 
         return toastResponse(
             redirect: redirect()->route('login'),
-            message: __('auth.logout'),
+            message: __('auth.goodbye'),
+            description: __('auth.logout'),
         );
     }
 }

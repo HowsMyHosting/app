@@ -19,5 +19,7 @@ return [
     'success' => 'Successfully logged in',
     'registered' => 'Successfully created your account',
     'logout' => 'Successfully logged out',
+    'welcome' => 'Welcome back!',
+    'goodbye' => 'See ya soon!',
 
 ];

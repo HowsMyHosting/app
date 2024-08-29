@@ -21,7 +21,8 @@ class EmailVerificationNotificationController extends Controller
 
         return toastResponse(
             redirect: back(),
-            message: __('emailVerification.success'),
+            message: __('general.success'),
+            description: __('emailVerification.success'),
         );
     }
 }

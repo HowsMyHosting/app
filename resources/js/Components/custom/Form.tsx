@@ -1,4 +1,4 @@
-import { FormContext } from "@/Hooks/FormContext";
+import { FormContext } from "@/hooks/form-context";
 
 export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
     isLoading: boolean;

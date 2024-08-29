@@ -22,7 +22,8 @@ class SocialLoginController extends Controller
 
         return toastResponse(
             redirect: redirect('/dashboard'),
-            message: __('auth.success'),
+            message: __('auth.welcome'),
+            description: __('auth.success'),
         );
     }
 }

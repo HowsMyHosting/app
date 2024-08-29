@@ -17,7 +17,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/ForgotPassword/Show');
+        return Inertia::render('auth/forgot-password/show');
     }
 
     /**
@@ -41,7 +41,8 @@ class PasswordResetLinkController extends Controller
         if ($status == Password::RESET_LINK_SENT) {
             return toastResponse(
                 redirect: back(),
-                message: __($status),
+                message: __('general.success'),
+                description: __($status),
             );
         }
 

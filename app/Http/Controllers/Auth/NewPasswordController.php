@@ -21,7 +21,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): Response
     {
-        return Inertia::render('Auth/ResetPassword/Show', [
+        return Inertia::render('auth/reset-password/show', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);
@@ -61,7 +61,8 @@ class NewPasswordController extends Controller
         if ($status == Password::PASSWORD_RESET) {
             return toastResponse(
                 redirect: redirect()->route('login'),
-                message: __($status),
+                message: __('general.success'),
+                description: __($status),
             );
         }
 
