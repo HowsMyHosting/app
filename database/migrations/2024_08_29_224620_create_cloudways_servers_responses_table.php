@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cloudways_integrations', function (Blueprint $table) {
+        Schema::create('cloudways_servers_responses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('email');
-            $table->string('api_key');
-            $table->string('access_token');
-            $table->string('token_type')->default('Bearer');
-            $table->integer('expires_in')->default(3600);
+            $table->foreignId('cloudways_integration_id');
+            $table->json('servers');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cloudways_integrations');
+        Schema::dropIfExists('cloudways_servers_responses');
     }
 };

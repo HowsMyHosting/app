@@ -14,6 +14,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
+    // ----------------------------------- attributes
+
     /**
      * The attributes that are mass assignable.
      *
@@ -51,8 +53,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    // ----------------------------------- relations
+
     public function cloudwaysIntegration(): HasOne
     {
        return $this->hasOne(CloudwaysIntegration::class);
+    }
+
+    // ----------------------------------- helpers
+
+    public function hasCloudwaysIntegration(): bool
+    {
+        return $this->cloudwaysIntegration()->exists();
     }
 }

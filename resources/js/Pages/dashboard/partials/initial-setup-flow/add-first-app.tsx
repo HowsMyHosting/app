@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import {
     Command,
     CommandEmpty,
@@ -11,6 +11,10 @@ import {
 import Stepper from "@/components/custom/stepper";
 import { Steps } from "@/types/stepper";
 import { useEffect, useState } from "react";
+import { LoaderCircleIcon, RotateCcwIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import axios from "axios";
 
 type App = {
     label: string;
@@ -23,38 +27,44 @@ type Server = {
 };
 
 const AddFirstApp = ({ steps }: { steps: Steps }) => {
+    const [serversLoading, setServersLoading] = useState<boolean>(true);
     const [servers, setServers] = useState<Server[]>([]);
 
     useEffect(() => {
-        setServers([
-            {
-                label: "Labelle - Sunset Screens",
-                apps: [
-                    {
-                        label: "Labelle Website",
-                        id: "app-12345",
-                    },
-                    {
-                        label: "Sunset Screens",
-                        id: "app-12346",
-                    },
-                ],
-            },
-            {
-                label: "EB5 Server - Associates",
-                apps: [
-                    {
-                        label: "EB5 Website",
-                        id: "app-123457",
-                    },
-                    {
-                        label: "Associates Tile",
-                        id: "app-123458",
-                    },
-                ],
-            },
-        ]);
+        setTimeout(() => {
+            getCloudwaysServers();
+        }, 0);
     }, []);
+
+    const getCloudwaysServers = () => {
+        router.reload({
+            only: ["cloudwaysServers"],
+            onSuccess: (page) => {
+                setServers(page.props.cloudwaysServers as Server[]);
+                setServersLoading(false);
+            },
+        });
+    };
+
+    const refreshCloudwaysServers = () => {
+        setServersLoading(true);
+
+        axios
+            .get(route("cloudwaysIntegration.refreshServersList"))
+            .then(({ data }) => {
+                setServers(data.cloudwaysServers as Server[]);
+
+                setServersLoading(false);
+            })
+            .catch(({ response }) => {
+                toast(response.data.message, {
+                    description: response.data.description,
+                    type: "error",
+                });
+
+                setServersLoading(false);
+            });
+    };
 
     return (
         <>
@@ -71,45 +81,65 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
                     Pick one of your apps from the list below.
                 </p>
 
-                <Command
-                    loop={true}
-                    defaultValue=""
-                    className="rounded-lg border shadow-md md:min-w-[450px]"
-                >
-                    <CommandInput
-                        autoFocus
-                        placeholder="Type an app name or search..."
-                    />
-                    <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
+                {serversLoading ? (
+                    <div className="flex space-x-1.5 items-center">
+                        <LoaderCircleIcon size={15} className="animate-spin" />
+                        <p className="text-sm">Loading your servers...</p>
+                    </div>
+                ) : (
+                    <>
+                        <Command
+                            loop={true}
+                            defaultValue=""
+                            className="rounded-lg border shadow-md md:min-w-[450px]"
+                        >
+                            <CommandInput
+                                autoFocus
+                                placeholder="Type an app name or search..."
+                            />
+                            <CommandList>
+                                <CommandEmpty>No results found.</CommandEmpty>
 
-                        {servers.map((server: Server, index) => (
-                            <div key={index}>
-                                {index > 0 && <CommandSeparator />}
+                                {servers.map((server: Server, index) => (
+                                    <div key={index}>
+                                        {index > 0 && <CommandSeparator />}
 
-                                <CommandGroup heading={server.label}>
-                                    {server.apps.map((app, index) => (
-                                        <CommandItem
-                                            value={app.label}
-                                            key={index}
-                                            onSelect={(value: string) =>
-                                                alert(
-                                                    `You selected ${app.label}`,
-                                                )
-                                            }
-                                        >
-                                            <span>{app.label}</span>
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </div>
-                        ))}
-                    </CommandList>
-                </Command>
+                                        <CommandGroup heading={server.label}>
+                                            {server.apps.map((app, index) => (
+                                                <CommandItem
+                                                    value={app.label}
+                                                    key={index}
+                                                    onSelect={(value: string) =>
+                                                        alert(
+                                                            `You selected ${app.label}`,
+                                                        )
+                                                    }
+                                                >
+                                                    <span>{app.label}</span>
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </div>
+                                ))}
+                            </CommandList>
+                        </Command>
 
-                <p className="text-sm text-gray-400 mt-8">
-                    Each website you add will be an additional $2/mo charge on
-                    your account as outlined in our{" "}
+                        <Button
+                            rounded="pill"
+                            variant="secondary"
+                            size="sm"
+                            className="mt-4 px-4"
+                            onClick={refreshCloudwaysServers}
+                        >
+                            <RotateCcwIcon size={13} className="mr-1" /> Refresh
+                            list
+                        </Button>
+                    </>
+                )}
+
+                <p className="text-[14px] text-gray-400 mt-8">
+                    Each app/website you add will be an additional $2/mo charge
+                    on your account as outlined in our{" "}
                     <Link href="" className="underline">
                         pricing page
                     </Link>

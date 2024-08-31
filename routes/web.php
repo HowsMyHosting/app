@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CloudwaysIntegrationController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,9 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('dashboard/show');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::controller(ProfileController::class)->group(function () {
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(CloudwaysIntegrationController::class) ->group(function () {
         Route::post('cloudways-integration', 'store')->name('cloudwaysIntegration.store');
+        Route::get('cloudways-integration/refresh-servers-list', 'refreshServersList')->name('cloudwaysIntegration.refreshServersList');
     });
 });
 

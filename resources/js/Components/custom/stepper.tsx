@@ -14,11 +14,11 @@ const Stepper = ({ steps }: { steps: Steps }) => {
                         ) : (
                             <>
                                 {step.current ? (
-                                    <span className="size-7 flex justify-center items-center shrink-0 bg-white border font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white">
+                                    <span className="size-7 flex justify-center items-center shrink-0 bg-accent border font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white">
                                         {index + 1}
                                     </span>
                                 ) : (
-                                    <span className="size-7 flex justify-center items-center shrink-0 bg-accent font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white">
+                                    <span className="size-7 flex justify-center items-center shrink-0 bg-white border font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white">
                                         {index + 1}
                                     </span>
                                 )}
