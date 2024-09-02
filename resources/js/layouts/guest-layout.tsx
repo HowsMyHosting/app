@@ -6,14 +6,14 @@ import BaseLayout from "@/layouts/base-layout";
 const Guest = ({ children }: PropsWithChildren) => {
     return (
         <BaseLayout>
-            <div className="min-h-screen container flex flex-col justify-center items-center pt-6 sm:pt-0 relative">
+            <div className="min-h-screen container flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative">
                 <div className="absolute top-[25px] left-[33px]">
                     <Link href={route("welcome")}>
                         <ApplicationLogo />
                     </Link>
                 </div>
 
-                <div className="w-full sm:max-w-md mt-[-100px] sm:mt-[40px]">
+                <div className="w-full sm:max-w-md pt-24 sm:pt-0">
                     {children}
                 </div>
             </div>

@@ -7,14 +7,14 @@ const Show = () => {
         <GuestLayout>
             <Head title="Register" />
 
-            <h1 className="font-bold text-3xl text-center mb-2">
+            <h1 className="font-bold text-[23px] sm:text-3xl sm:text-center mb-1 sm:mb-2">
                 Sign up today 🚀
             </h1>
 
-            <p className="text-center mb-7 text-sm">
+            <p className="sm:text-center mb-7 text-sm">
                 Already have an account?{" "}
                 <Link className="underline" href={route("login")}>
-                    Sign into your account
+                    Sign in
                 </Link>
             </p>
 

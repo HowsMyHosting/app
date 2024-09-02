@@ -7,7 +7,7 @@ const Show = ({ token, email }: { token: string; email: string }) => {
         <GuestLayout>
             <Head title="Reset your password" />
 
-            <h1 className="font-bold text-3xl text-center mb-7">
+            <h1 className="font-bold text-[23px] sm:text-3xl sm:text-center mb-7">
                 Reset your password 🤫
             </h1>
 

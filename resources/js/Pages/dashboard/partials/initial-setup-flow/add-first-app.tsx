@@ -68,12 +68,12 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
 
     return (
         <>
-            <div className="w-full sm:max-w-md mt-[-100px] sm:mt-[40px] mx-auto pt-12">
+            <div className="w-full sm:max-w-md sm:mt-[40px] mx-auto pt-6 sm:pt-12">
                 <Stepper steps={steps} />
             </div>
 
-            <div className="w-full sm:max-w-md mt-[-100px] sm:mt-[40px] mx-auto pt-4">
-                <h1 className="font-bold text-2xl mb-3">
+            <div className="w-full sm:max-w-md mt-[10px] sm:mt-[40px] mx-auto pt-4">
+                <h1 className="font-bold text-xl sm:text-2xl mb-1 sm:mb-3">
                     Add an app<span className="mx-1">/</span>website
                 </h1>
 

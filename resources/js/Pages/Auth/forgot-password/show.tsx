@@ -7,11 +7,11 @@ const Show = () => {
         <GuestLayout>
             <Head title="Forgot password" />
 
-            <h1 className="font-bold text-3xl text-center mb-5">
+            <h1 className="font-bold text-[23px] sm:text-3xl sm:text-center mb-4 sm:mb-5">
                 Forgot your password? 🤔
             </h1>
 
-            <p className="text-center mb-7 text-sm">
+            <p className="sm:text-center mb-7 text-sm">
                 No problem! Just let us know your email address and we will
                 email you a password reset link that will allow you to choose a
                 new one.

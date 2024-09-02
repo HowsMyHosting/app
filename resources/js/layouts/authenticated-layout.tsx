@@ -143,8 +143,9 @@ const Authenticated = ({
 
                     <div
                         className={
-                            (showingNavigationDropdown ? "block" : "hidden") +
-                            " sm:hidden"
+                            (showingNavigationDropdown
+                                ? "block border-b"
+                                : "hidden") + " sm:hidden"
                         }
                     >
                         <div className="pt-2 pb-3 space-y-1">
@@ -158,16 +159,16 @@ const Authenticated = ({
 
                         <div className="pt-4 pb-1 border-t border-gray-200">
                             <div className="px-4">
-                                <div className="font-medium text-base text-gray-800">
-                                    {user.name}
-                                </div>
                                 <div className="font-medium text-sm text-gray-500">
                                     {user.email}
                                 </div>
                             </div>
 
                             <div className="mt-3 space-y-1">
-                                <ResponsiveNavLink href={route("profile.edit")}>
+                                <ResponsiveNavLink
+                                    href={route("profile.edit")}
+                                    active={route().current("profile.edit")}
+                                >
                                     Profile
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink

@@ -26,7 +26,7 @@ const Stepper = ({ steps }: { steps: Steps }) => {
                         )}
                         <div className="ms-2 w-full h-px flex-1 bg-slate-200 group-last:hidden dark:bg-neutral-700"></div>
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 hidden sm:block">
                         <span className="block text-xs text-gray-600 dark:text-white">
                             {step.label}
                         </span>
