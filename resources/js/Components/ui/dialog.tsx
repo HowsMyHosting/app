@@ -1,6 +1,6 @@
+import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -100,7 +100,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Description
         ref={ref}
-        className={cn("text-sm text-muted-foreground", className)}
+        className={cn("text-sm text-gray-600", className)}
         {...props}
     />
 ));
@@ -108,13 +108,13 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {
     Dialog,
+    DialogPortal,
+    DialogOverlay,
+    DialogTrigger,
     DialogClose,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
     DialogHeader,
-    DialogOverlay,
-    DialogPortal,
+    DialogFooter,
     DialogTitle,
-    DialogTrigger,
+    DialogDescription,
 };

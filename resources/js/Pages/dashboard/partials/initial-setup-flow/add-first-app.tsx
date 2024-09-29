@@ -1,3 +1,7 @@
+// @ts-nocheck
+// the nocheck is in place because of the type property on
+// the toast helper from sonner
+
 import { Link, router } from "@inertiajs/react";
 import {
     Command,
@@ -15,6 +19,7 @@ import { LoaderCircleIcon, RotateCcwIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import axios from "axios";
+import { DrawerDialog } from "@/components/custom/drawer-dialog";
 
 type App = {
     label: string;
@@ -29,6 +34,8 @@ type Server = {
 const AddFirstApp = ({ steps }: { steps: Steps }) => {
     const [serversLoading, setServersLoading] = useState<boolean>(true);
     const [servers, setServers] = useState<Server[]>([]);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [selectedApp, setSelectedApp] = useState<App>();
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,6 +71,12 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
 
                 setServersLoading(false);
             });
+    };
+
+    const handleStoreApp = () => {
+        // post to a route to store this
+
+        console.log(`lets store ${selectedApp?.label}`);
     };
 
     return (
@@ -107,13 +120,13 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
                                         <CommandGroup heading={server.label}>
                                             {server.apps.map((app, index) => (
                                                 <CommandItem
-                                                    value={app.label}
+                                                    value={app.id}
+                                                    keywords={[app.label]}
                                                     key={index}
-                                                    onSelect={(value: string) =>
-                                                        alert(
-                                                            `You selected ${app.label}`,
-                                                        )
-                                                    }
+                                                    onSelect={() => {
+                                                        setSelectedApp(app);
+                                                        setOpenDialog(true);
+                                                    }}
                                                 >
                                                     <span>{app.label}</span>
                                                 </CommandItem>
@@ -134,6 +147,30 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
                             <RotateCcwIcon size={13} className="mr-1" /> Refresh
                             list
                         </Button>
+
+                        <DrawerDialog
+                            title="Confirm your selection"
+                            description={
+                                <span>
+                                    You've selected to report on{" "}
+                                    <span className="underline underline-offset-2">
+                                        {selectedApp?.label}
+                                    </span>{" "}
+                                    for an additional $2/month. Do you want to
+                                    proceed?
+                                </span>
+                            }
+                            body={
+                                <Button
+                                    onClick={handleStoreApp}
+                                    className="w-full"
+                                >
+                                    Report on this app
+                                </Button>
+                            }
+                            openDialog={openDialog}
+                            setOpenDialog={setOpenDialog}
+                        />
                     </>
                 )}
 

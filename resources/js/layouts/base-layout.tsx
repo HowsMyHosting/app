@@ -1,3 +1,7 @@
+// @ts-nocheck
+// the nocheck is in place because of the type property on
+// the toast helper from sonner
+
 import { Toaster } from "@/components/ui/sonner";
 import { PageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
