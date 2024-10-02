@@ -4,7 +4,9 @@ import { PageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
 
 const InitialSetupFlow = () => {
-    const { auth } = usePage<PageProps>().props;
+    const { auth, existingAppIds } = usePage<
+        PageProps & { existingAppIds: Array<string> }
+    >().props;
 
     const steps = [
         {
@@ -39,7 +41,7 @@ const InitialSetupFlow = () => {
         steps[0].passed = true;
         steps[1].current = true;
 
-        return <AddFirstApp steps={steps} />;
+        return <AddFirstApp steps={steps} existingAppIds={existingAppIds} />;
     }
 };
 

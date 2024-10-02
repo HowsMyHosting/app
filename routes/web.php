@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CloudwaysAppController;
 use App\Http\Controllers\CloudwaysIntegrationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -27,9 +28,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
 
-    Route::controller(CloudwaysIntegrationController::class) ->group(function () {
+    Route::controller(CloudwaysIntegrationController::class)->group(function () {
         Route::post('cloudways-integration', 'store')->name('cloudwaysIntegration.store');
         Route::get('cloudways-integration/refresh-servers-list', 'refreshServersList')->name('cloudwaysIntegration.refreshServersList');
+    });
+
+    Route::controller(CloudwaysAppController::class)->group(function () {
+        Route::get('cloudways/app/{cloudwaysApp:uuid}', 'show')->name('cloudwaysApp.show');
+        Route::post('cloudways/app', 'store')->name('cloudwaysApp.store');
+        Route::delete('cloudways/app/{cloudwaysApp:uuid}', 'destroy')->name('cloudwaysApp.destroy');
     });
 });
 

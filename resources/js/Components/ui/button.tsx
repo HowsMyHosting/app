@@ -7,24 +7,24 @@ import { LoaderCircleIcon } from "lucide-react";
 import { FormContext } from "@/hooks/form-context";
 
 const buttonVariants = cva(
-    "inline-flex font-medium items-center justify-center hover:translate-y-[-2px] whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-slate-300",
+    "inline-flex font-medium items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-slate-300",
     {
         variants: {
             variant: {
                 default:
-                    "bg-primary text-primary-foreground hover:bg-primary/90",
+                    "bg-primary text-primary-foreground hover:bg-primary/90 hover:translate-y-[-2px]",
                 destructive:
-                    "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                    "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:translate-y-[-2px]",
                 outline:
-                    "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+                    "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:translate-y-[-2px]",
                 secondary:
-                    "bg-white rounded-md border border-input bg-transparent shadow-sm transition-colors",
-                ghost: "hover:bg-accent hover:text-accent-foreground",
+                    "bg-white rounded-md border border-input bg-transparent shadow-sm transition-colors hover:translate-y-[-2px]",
+                ghost: "hover:bg-accent hover:text-accent-foreground hover:translate-y-[-2px]",
                 link: "text-primary underline-offset-4 hover:underline",
             },
             size: {
                 default: "h-10 px-5 py-2",
-                sm: "h-8 px-3 text-xs",
+                sm: "h-9 px-3 text-sm",
                 lg: "h-12 px-8",
                 icon: "h-9 w-9",
             },
@@ -46,6 +46,7 @@ export interface ButtonProps
         VariantProps<typeof buttonVariants> {
     asChild?: boolean;
     isLoading?: boolean;
+    showSpinner?: boolean;
     loadingText?: string;
 }
 
@@ -57,6 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             size,
             rounded,
             isLoading = false,
+            showSpinner = false,
             loadingText,
             asChild = false,
             ...props
@@ -69,7 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         if (isLoading || formIsLoading) {
             props.disabled = true;
 
-            if (props.type === "submit") {
+            if (props.type === "submit" || showSpinner) {
                 props.children = (
                     <>
                         <LoaderCircleIcon

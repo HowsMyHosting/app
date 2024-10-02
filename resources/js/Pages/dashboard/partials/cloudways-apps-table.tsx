@@ -1,0 +1,160 @@
+import { DrawerDialog } from "@/components/custom/drawer-dialog";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+    Table,
+    TableHeader,
+    TableRow,
+    TableHead,
+    TableBody,
+    TableCell,
+} from "@/components/ui/table";
+import { LocalCloudwaysApp } from "@/types";
+import { Link, router } from "@inertiajs/react";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import { Edit3Icon, EllipsisIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { useState } from "react";
+
+const CloudwaysAppsTable = ({
+    cloudwaysApps,
+}: {
+    cloudwaysApps: LocalCloudwaysApp[];
+}) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [selectedApp, setSelectedApp] = useState<LocalCloudwaysApp>();
+
+    const handleDeleteCloudwaysApp = () => {
+        setIsLoading(true);
+
+        router.delete(route("cloudwaysApp.destroy", selectedApp?.uuid));
+    };
+
+    return (
+        <div className="mt-14 sm:mt-20">
+            <div className="flex justify-between items-center mb-5 sm:mb-8">
+                <h1 className="font-bold text-xl">Your Cloudways Apps</h1>
+
+                <Button size="sm">
+                    <PlusIcon size={16} className="mr-1" /> Add New
+                </Button>
+            </div>
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>App</TableHead>
+                        <TableHead>App ID</TableHead>
+                        <TableHead className="text-center">Status</TableHead>
+                        <TableHead></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {cloudwaysApps.map((cloudwaysApp: LocalCloudwaysApp) => {
+                        return (
+                            <TableRow>
+                                <TableCell>
+                                    <Link
+                                        href={route(
+                                            "cloudwaysApp.show",
+                                            cloudwaysApp.uuid,
+                                        )}
+                                        className="underline underline-offset-2"
+                                    >
+                                        {cloudwaysApp.label}
+                                    </Link>
+                                </TableCell>
+                                <TableCell>
+                                    <code className="bg-gray-200 rounded py-[5px] px-[8px] text-xs">
+                                        {cloudwaysApp.app_id}
+                                    </code>
+                                </TableCell>
+                                <TableCell className="text-center">
+                                    {cloudwaysApp.status === "connected" && (
+                                        <span className="inline-block h-2 w-2 rounded-full bg-green-400"></span>
+                                    )}
+
+                                    {cloudwaysApp.status === "pending" && (
+                                        <span className="inline-block h-2 w-2 rounded-full bg-yellow-400"></span>
+                                    )}
+
+                                    {cloudwaysApp.status === "disconnected" && (
+                                        <span className="inline-block h-2 w-2 rounded-full bg-red-500"></span>
+                                    )}
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                size="icon"
+                                                variant="link"
+                                                className="text-black rounded-full hover:bg-muted"
+                                            >
+                                                <EllipsisIcon size={20} />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem className="space-x-2">
+                                                <Edit3Icon
+                                                    color="#9ca3af"
+                                                    size={15}
+                                                />
+                                                <span>Edit</span>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                onClick={() => {
+                                                    setSelectedApp(
+                                                        cloudwaysApp,
+                                                    );
+                                                    setOpenDialog(true);
+                                                }}
+                                                className="space-x-2 text-red-500"
+                                            >
+                                                <Trash2Icon size={15} />
+                                                <span>Delete</span>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+
+            <DrawerDialog
+                title="Are you sure?"
+                description={
+                    <span>
+                        All reporting emails created for{" "}
+                        <span className="underline underline-offset-2">
+                            {selectedApp?.label}
+                        </span>{" "}
+                        will be permanently deleted. This action cannot be
+                        undone. Are you sure you want to proceed?
+                    </span>
+                }
+                body={
+                    <Button
+                        isLoading={isLoading}
+                        loadingText="Deleting..."
+                        showSpinner
+                        onClick={handleDeleteCloudwaysApp}
+                        className="w-full"
+                        variant="destructive"
+                    >
+                        Continue
+                    </Button>
+                }
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+            />
+        </div>
+    );
+};
+
+export default CloudwaysAppsTable;

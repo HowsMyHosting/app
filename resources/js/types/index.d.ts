@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 export interface User {
     id: number;
     name: string;
@@ -22,4 +24,11 @@ export type PageProps<
             id: string;
         };
     };
+};
+
+export type LocalCloudwaysApp = {
+    uuid: UUID;
+    app_id: string;
+    label: string;
+    status: "pending" | "connected" | "disconnected";
 };

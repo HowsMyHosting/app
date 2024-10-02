@@ -31,8 +31,15 @@ type Server = {
     apps: App[];
 };
 
-const AddFirstApp = ({ steps }: { steps: Steps }) => {
+const AddFirstApp = ({
+    steps,
+    existingAppIds,
+}: {
+    steps: Steps;
+    existingAppIds: Array<string>;
+}) => {
     const [serversLoading, setServersLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [servers, setServers] = useState<Server[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [selectedApp, setSelectedApp] = useState<App>();
@@ -74,9 +81,12 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
     };
 
     const handleStoreApp = () => {
-        // post to a route to store this
+        setIsLoading(true);
 
-        console.log(`lets store ${selectedApp?.label}`);
+        router.post(route("cloudwaysApp.store"), {
+            label: selectedApp?.label,
+            id: selectedApp?.id,
+        });
     };
 
     return (
@@ -120,6 +130,9 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
                                         <CommandGroup heading={server.label}>
                                             {server.apps.map((app, index) => (
                                                 <CommandItem
+                                                    disabled={existingAppIds.includes(
+                                                        app.id,
+                                                    )}
                                                     value={app.id}
                                                     keywords={[app.label]}
                                                     key={index}
@@ -162,10 +175,13 @@ const AddFirstApp = ({ steps }: { steps: Steps }) => {
                             }
                             body={
                                 <Button
+                                    isLoading={isLoading}
+                                    loadingText="Creating..."
+                                    showSpinner
                                     onClick={handleStoreApp}
                                     className="w-full"
                                 >
-                                    Report on this app
+                                    Continue
                                 </Button>
                             }
                             openDialog={openDialog}
