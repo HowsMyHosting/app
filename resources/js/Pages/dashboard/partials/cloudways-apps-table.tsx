@@ -31,15 +31,23 @@ const CloudwaysAppsTable = ({
     const handleDeleteCloudwaysApp = () => {
         setIsLoading(true);
 
-        router.delete(route("cloudwaysApp.destroy", selectedApp?.uuid));
+        router.delete(route("cloudwaysApp.destroy", selectedApp?.uuid), {
+            onSuccess: () => {
+                setIsLoading(false);
+                setOpenDialog(false);
+            },
+        });
     };
 
     return (
         <div className="mt-14 sm:mt-20">
-            <div className="flex justify-between items-center mb-5 sm:mb-8">
+            <div className="flex space-y-4 sm:space-y-0 sm:flex-row flex-col justify-between sm:items-center mb-5 sm:mb-6">
                 <h1 className="font-bold text-xl">Your Cloudways Apps</h1>
 
-                <Button size="sm">
+                <Button
+                    size="sm"
+                    onClick={() => router.visit(route("cloudwaysApp.create"))}
+                >
                     <PlusIcon size={16} className="mr-1" /> Add New
                 </Button>
             </div>
@@ -48,7 +56,9 @@ const CloudwaysAppsTable = ({
                 <TableHeader>
                     <TableRow>
                         <TableHead>App</TableHead>
-                        <TableHead>App ID</TableHead>
+                        <TableHead className="hidden sm:block">
+                            App ID
+                        </TableHead>
                         <TableHead className="text-center">Status</TableHead>
                         <TableHead></TableHead>
                     </TableRow>
@@ -56,7 +66,7 @@ const CloudwaysAppsTable = ({
                 <TableBody>
                     {cloudwaysApps.map((cloudwaysApp: LocalCloudwaysApp) => {
                         return (
-                            <TableRow>
+                            <TableRow key={cloudwaysApp.uuid}>
                                 <TableCell>
                                     <Link
                                         href={route(
@@ -68,8 +78,8 @@ const CloudwaysAppsTable = ({
                                         {cloudwaysApp.label}
                                     </Link>
                                 </TableCell>
-                                <TableCell>
-                                    <code className="bg-gray-200 rounded py-[5px] px-[8px] text-xs">
+                                <TableCell className="hidden sm:block">
+                                    <code className="bg-gray-200 inline-block rounded py-[5px] px-[8px] text-xs">
                                         {cloudwaysApp.app_id}
                                     </code>
                                 </TableCell>

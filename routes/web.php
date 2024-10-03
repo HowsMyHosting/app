@@ -33,8 +33,10 @@ Route::middleware('auth')->group(function () {
         Route::get('cloudways-integration/refresh-servers-list', 'refreshServersList')->name('cloudwaysIntegration.refreshServersList');
     });
 
+    // TODO: add middleware, needs to have cloudways integration
     Route::controller(CloudwaysAppController::class)->group(function () {
-        Route::get('cloudways/app/{cloudwaysApp:uuid}', 'show')->name('cloudwaysApp.show');
+        Route::get('cloudways/app/view/{cloudwaysApp:uuid}', 'show')->name('cloudwaysApp.show');
+        Route::get('cloudways/app/create', 'create')->name('cloudwaysApp.create');
         Route::post('cloudways/app', 'store')->name('cloudwaysApp.store');
         Route::delete('cloudways/app/{cloudwaysApp:uuid}', 'destroy')->name('cloudwaysApp.destroy');
     });

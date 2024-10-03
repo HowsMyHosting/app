@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CloudwaysServerResource;
 use App\Http\Resources\LocalCloudwaysAppResource;
-use App\Models\CloudwaysApp;
 use App\Services\CloudwaysApiService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -38,7 +37,7 @@ class DashboardController extends Controller
                 return CloudwaysServerResource::collection($cloudwaysServers);
             }),
             'cloudwaysApps' => LocalCloudwaysAppResource::collection($cloudwaysIntegration->apps) ?? [],
-            'existingAppIds' => CloudwaysApp::pluck('app_id')->toArray(),
+            'existingAppIds' => $cloudwaysIntegration->apps->pluck('app_id')->toArray() ?? [],
         ]);
     }
 }
