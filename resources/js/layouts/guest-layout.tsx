@@ -13,7 +13,7 @@ const Guest = ({ children }: PropsWithChildren) => {
                     </Link>
                 </div>
 
-                <div className="w-full sm:max-w-md pt-24 sm:pt-0">
+                <div className="w-full sm:max-w-md pt-24 sm:pt-0 mt-0 sm:mt-[-150px]">
                     {children}
                 </div>
             </div>

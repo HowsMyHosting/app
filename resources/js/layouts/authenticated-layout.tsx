@@ -32,7 +32,7 @@ const Authenticated = ({
             <div className="min-h-screen">
                 <nav>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between h-16">
+                        <div className="flex justify-between h-[75px]">
                             <div className="flex">
                                 <div className="shrink-0 flex items-center">
                                     <Link href={route("dashboard")}>
@@ -84,7 +84,7 @@ const Authenticated = ({
                                             <DropdownMenuItem
                                                 className="space-x-2"
                                                 onClick={() =>
-                                                    router.post("logout")
+                                                    router.post("/logout")
                                                 }
                                             >
                                                 <LogOutIcon
