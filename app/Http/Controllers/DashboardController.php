@@ -36,8 +36,8 @@ class DashboardController extends Controller
 
                 return CloudwaysServerResource::collection($cloudwaysServers);
             }),
-            'cloudwaysApps' => LocalCloudwaysAppResource::collection($cloudwaysIntegration->apps) ?? [],
-            'existingAppIds' => $cloudwaysIntegration->apps->pluck('app_id')->toArray() ?? [],
+            'cloudwaysApps' => $cloudwaysIntegration ? LocalCloudwaysAppResource::collection($cloudwaysIntegration->apps) : [],
+            'existingAppIds' => $cloudwaysIntegration ? $cloudwaysIntegration->apps->pluck('app_id')->toArray() : [],
         ]);
     }
 }

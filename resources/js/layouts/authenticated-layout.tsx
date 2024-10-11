@@ -1,7 +1,7 @@
 import { useState, PropsWithChildren, ReactNode } from "react";
 import ResponsiveNavLink from "@/components/responsive-nav-link";
-import { Link, router } from "@inertiajs/react";
-import { User } from "@/types";
+import { Link, router, usePage } from "@inertiajs/react";
+import { PageProps, User } from "@/types";
 import BaseLayout from "@/layouts/base-layout";
 import ApplicationLogo from "@/components/application-logo";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -19,6 +19,19 @@ import {
     DropdownMenuTrigger,
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
+type BreadcrumbItem = {
+    label: string;
+    href: string;
+};
 
 const Authenticated = ({
     user,
@@ -26,6 +39,10 @@ const Authenticated = ({
 }: PropsWithChildren<{ user: User; header?: ReactNode }>) => {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const { breadcrumbs } = usePage<
+        PageProps & { breadcrumbs: BreadcrumbItem[] }
+    >().props;
 
     return (
         <BaseLayout>
@@ -183,7 +200,39 @@ const Authenticated = ({
                     </div>
                 </nav>
 
-                <main>{children}</main>
+                <main>
+                    {breadcrumbs && breadcrumbs.length > 0 && (
+                        <div className="container">
+                            <Breadcrumb className="mt-5">
+                                <BreadcrumbList>
+                                    {breadcrumbs.map((breadcrumb, index) => (
+                                        <BreadcrumbItem
+                                            key={breadcrumb.href || index}
+                                        >
+                                            {index > 0 && (
+                                                <BreadcrumbSeparator />
+                                            )}
+                                            {breadcrumb.href ? (
+                                                <BreadcrumbLink asChild>
+                                                    <Link
+                                                        href={breadcrumb.href}
+                                                    >
+                                                        {breadcrumb.label}
+                                                    </Link>
+                                                </BreadcrumbLink>
+                                            ) : (
+                                                <BreadcrumbPage>
+                                                    {breadcrumb.label}
+                                                </BreadcrumbPage>
+                                            )}
+                                        </BreadcrumbItem>
+                                    ))}
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
+                    )}
+                    {children}
+                </main>
             </div>
         </BaseLayout>
     );

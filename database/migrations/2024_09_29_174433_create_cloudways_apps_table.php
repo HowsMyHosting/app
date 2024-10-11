@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('label');
             $table->string('status')->default(CloudwaysApp::PENDING);
             $table->timestamps();
+
+            $table->unique(['app_id', 'cloudways_integration_id', 'user_id']);
         });
     }
 

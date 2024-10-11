@@ -62,7 +62,9 @@ const ConnectCloudways = ({ steps }: { steps: Steps }) => {
                         />
                     </div>
 
-                    <Button type="submit">Connect to Cloudways</Button>
+                    <Button type="submit" loadingText="Connecting...">
+                        Connect to Cloudways
+                    </Button>
                 </Form>
             </div>
         </>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,6 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function cloudwaysApps(): HasMany
     {
         return $this->hasMany(CloudwaysApp::class);
+    }
+
+    public function integrations(): BelongsToMany
+    {
+        return $this->belongsToMany(Integration::class)->withTimestamps();
     }
 
     // ----------------------------------- helpers

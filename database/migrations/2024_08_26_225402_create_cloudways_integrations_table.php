@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('token_type')->default('Bearer');
             $table->integer('expires_in')->default(3600);
             $table->timestamps();
+
+            $table->unique(['email', 'api_key', 'user_id']);
         });
     }
 

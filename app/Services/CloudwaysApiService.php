@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\CloudwaysIntegration;
+use App\Models\Integration;
 use GuzzleHttp\Client;
 
 class CloudwaysApiService
@@ -41,10 +42,15 @@ class CloudwaysApiService
             'api_key' => $apiKey,
         ];
 
-        return user()->cloudwaysIntegration()->updateOrCreate(
+        $cloudwaysIntegration = user()->cloudwaysIntegration()->updateOrCreate(
             ['user_id' => user()->id],
             $connectionData
         );
+
+        $integration = Integration::where('name', Integration::CLOUDWAYS)->first();
+        user()->integrations()->syncWithoutDetaching([$integration->id]);
+
+        return $cloudwaysIntegration;
     }
 
     /**
@@ -125,7 +131,7 @@ class CloudwaysApiService
         $headers = ['Accept' => 'application/json'];
 
         if ($this->cloudwaysIntegration->token_type === 'Bearer') {
-            $headers['Authorization'] = 'Bearer ' . $this->cloudwaysIntegration->access_token;
+            $headers['Authorization'] = 'Bearer '.$this->cloudwaysIntegration->access_token;
         }
 
         return $headers;
