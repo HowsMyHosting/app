@@ -6,6 +6,7 @@ export interface User {
     email: string;
     email_verified_at: string;
     finished_initial_setup: boolean;
+    initial_setup_step: number;
     hasCloudwaysIntegration: boolean;
     addedFirstApp: boolean;
 }

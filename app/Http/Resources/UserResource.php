@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'finished_initial_setup' => $this->finished_initial_setup,
+            'initial_setup_step' => $this->initial_setup_step,
             'hasCloudwaysIntegration' => $this->hasCloudwaysIntegration(),
             'addedFirstApp' => $this->cloudwaysApps()->exists() && ! $this->finished_initial_setup,
             'created_at' => $this->created_at,

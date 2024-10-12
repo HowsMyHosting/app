@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->boolean('finished_initial_setup')->default(false);
+            $table->smallInteger('initial_setup_step')->default(1);
 
             $table->string('google_id')->nullable();
             $table->string('google_token')->nullable();

@@ -67,6 +67,12 @@ class CloudwaysAppController extends Controller
             'app_id' => $validated['id'],
         ]);
 
+        if (! $request->user()->finished_initial_setup) {
+            $request->user()->update([
+                'initial_setup_step' => 3,
+            ]);
+        }
+
         return toastResponse(
             redirect: route('cloudwaysApp.show', $cloudwaysApp),
             message: __('general.success'),

@@ -41,4 +41,9 @@ class CloudwaysApp extends Model
         'label',
         'status',
     ];
+
+    public function reportingData()
+    {
+        return $this->belongsToMany(ReportingData::class)->withTimestamps();
+    }
 }

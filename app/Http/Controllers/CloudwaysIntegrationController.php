@@ -35,6 +35,12 @@ class CloudwaysIntegrationController extends Controller
             );
         }
 
+        if (! $request->user()->finished_initial_setup) {
+            $request->user()->update([
+                'initial_setup_step' => 2,
+            ]);
+        }
+
         return toastResponse(
             redirect: back(),
             message: __('general.success'),
@@ -44,7 +50,7 @@ class CloudwaysIntegrationController extends Controller
 
     public function refreshServersList(): JsonResponse
     {
-        if (!user()->hasCloudwaysIntegration()) {
+        if (! user()->hasCloudwaysIntegration()) {
             return response()->json(['cloudwaysServers' => []]);
         }
 
@@ -52,7 +58,7 @@ class CloudwaysIntegrationController extends Controller
 
         if (
             $cloudwaysIntegration->hasServersResponse() &&
-            !$cloudwaysIntegration->serversResponse->refreshServersTimeoutExpired()
+            ! $cloudwaysIntegration->serversResponse->refreshServersTimeoutExpired()
         ) {
             return response()->json([
                 'message' => __('general.failed'),

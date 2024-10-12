@@ -10,6 +10,8 @@ class ReportingData extends Model
 {
     use HasFactory;
 
+    protected $table = 'reporting_datas';
+
     // ----------------------------------- attributes
 
     /**
@@ -27,5 +29,10 @@ class ReportingData extends Model
     public function integration(): BelongsTo
     {
         return $this->belongsTo(Integration::class);
+    }
+
+    public function cloudwaysApps()
+    {
+        return $this->belongsToMany(CloudwaysApp::class)->withTimestamps();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CloudwaysAppController;
+use App\Http\Controllers\CloudwaysAppReportingDataController;
 use App\Http\Controllers\CloudwaysIntegrationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -39,6 +40,10 @@ Route::middleware('auth')->group(function () {
         Route::get('cloudways/app/create', 'create')->name('cloudwaysApp.create');
         Route::post('cloudways/app', 'store')->name('cloudwaysApp.store');
         Route::delete('cloudways/app/{cloudwaysApp:uuid}', 'destroy')->name('cloudwaysApp.destroy');
+    });
+
+    Route::controller(CloudwaysAppReportingDataController::class)->group(function () {
+        Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'store')->name('cloudwaysAppReportingData.store');
     });
 });
 

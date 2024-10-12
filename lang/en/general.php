@@ -6,5 +6,6 @@ return [
     'failed' => 'Something went wrong',
     'created' => 'Successfully created your :resource',
     'deleted' => 'Successfully deleted your :resource',
+    'updated' => 'Successfully updated your :resource',
 
 ];
