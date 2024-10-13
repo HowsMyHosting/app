@@ -11,7 +11,7 @@ const Create = ({
         <AuthenticatedLayout user={auth.user}>
             <Head title="Add a Cloudways App" />
 
-            <div className="container">
+            <div className="container pb-16">
                 <AddApp existingAppIds={existingAppIds} />
             </div>
         </AuthenticatedLayout>
