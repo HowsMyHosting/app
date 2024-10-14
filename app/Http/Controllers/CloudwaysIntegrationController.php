@@ -35,12 +35,6 @@ class CloudwaysIntegrationController extends Controller
             );
         }
 
-        if (! $request->user()->finished_initial_setup) {
-            $request->user()->update([
-                'initial_setup_step' => 2,
-            ]);
-        }
-
         return toastResponse(
             redirect: back(),
             message: __('general.success'),

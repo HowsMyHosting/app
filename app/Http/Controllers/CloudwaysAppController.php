@@ -24,7 +24,7 @@ class CloudwaysAppController extends Controller
             ->pluck('name')
             ->toArray();
 
-        return inertia('cloudwaysApp/show', [
+        return inertia('cloudways-app/show', [
             'cloudwaysApp' => (new LocalCloudwaysAppResource($cloudwaysApp))->resolve(),
             'reportingData' => $reportingData,
             'breadcrumbs' => [
@@ -38,7 +38,7 @@ class CloudwaysAppController extends Controller
     {
         $cloudwaysIntegration = user()->cloudwaysIntegration;
 
-        return inertia('cloudwaysApp/create', [
+        return inertia('cloudways-app/create', [
             'cloudwaysServers' => Inertia::lazy(function () use ($cloudwaysIntegration) {
                 $cloudwaysServers = (new CloudwaysApiService($cloudwaysIntegration))
                     ->getServers(type: 'fetch');
@@ -66,12 +66,6 @@ class CloudwaysAppController extends Controller
             'label' => $validated['label'],
             'app_id' => $validated['id'],
         ]);
-
-        if (! $request->user()->finished_initial_setup) {
-            $request->user()->update([
-                'initial_setup_step' => 3,
-            ]);
-        }
 
         return toastResponse(
             redirect: route('cloudwaysApp.show', $cloudwaysApp),

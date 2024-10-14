@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import ChooseReportingData from "@/pages/cloudwaysApp/partials/choose-reporting-data";
-import EditReportingEmail from "@/pages/cloudwaysApp/partials/edit-reporting-email";
+import ChooseReportingData from "@/pages/cloudways-app/partials/choose-reporting-data";
+import EditReportingEmail from "@/pages/cloudways-app/partials/edit-reporting-email";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
@@ -13,26 +13,30 @@ const Show = ({
             <Head title={cloudwaysApp.label} />
 
             <div className="container pb-16">
-                {auth.user.finished_initial_setup ? (
+                {cloudwaysApp.has_email_report ? (
+                    // if app has email report, then setup for this app is complete
                     <p>Here we'll show data for the app</p>
                 ) : (
+                    // if setup is not complete, then we show the setup steps
                     <>
-                        {/*
-                            TODO: change this so that the setup step is on the cloudways app
-                            so that it doesnt just do it on the initial setup.
-                        */}
-                        {auth.user.initial_setup_step === 3 ? (
+                        {!cloudwaysApp.has_reporting_data ? (
+                            // first step of setup is to choose the reporting data
                             <>
                                 <ChooseReportingData
                                     cloudwaysApp={cloudwaysApp}
-                                    showStepper
+                                    showStepper={
+                                        !auth.user.finished_initial_setup
+                                    }
                                 />
                             </>
                         ) : (
+                            // second step of setup is to edit the reporting email
                             <>
                                 <EditReportingEmail
                                     cloudwaysApp={cloudwaysApp}
-                                    showStepper
+                                    showStepper={
+                                        !auth.user.finished_initial_setup
+                                    }
                                 />
                             </>
                         )}

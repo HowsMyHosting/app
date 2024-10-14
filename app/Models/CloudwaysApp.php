@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 /** @mixin Builder */
@@ -42,8 +43,15 @@ class CloudwaysApp extends Model
         'status',
     ];
 
+    // ----------------------------------- relationships
+
     public function reportingData()
     {
         return $this->belongsToMany(ReportingData::class)->withTimestamps();
+    }
+
+    public function emailReport(): HasOne
+    {
+        return $this->hasOne(EmailReport::class);
     }
 }

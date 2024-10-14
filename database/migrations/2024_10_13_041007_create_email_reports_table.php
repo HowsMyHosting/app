@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('cloudways_app_id')->constrained('cloudways_apps');
             $table->json('recipients');
             $table->string('subject');
-            $table->text('intro');
-            $table->text('signature');
+            $table->text('intro')->nullable();
+            $table->text('signature')->nullable();
             $table->timestamps();
         });
     }

@@ -19,6 +19,8 @@ class LocalCloudwaysAppResource extends JsonResource
             'app_id' => $this->app_id,
             'label' => $this->label,
             'status' => $this->status,
+            'has_email_report' => $this->emailReport()->exists(),
+            'has_reporting_data' => $this->reportingData()->exists(),
         ];
     }
 }

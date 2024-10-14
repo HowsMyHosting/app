@@ -1,5 +1,5 @@
 import Stepper from "@/components/custom/stepper";
-import AddApp from "@/pages/cloudwaysApp/partials/add-app";
+import AddApp from "@/pages/cloudways-app/partials/add-app";
 import { Steps } from "@/types/stepper";
 
 const AddFirstApp = ({

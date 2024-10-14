@@ -20,12 +20,6 @@ class CloudwaysAppReportingDataController extends Controller
 
         $cloudwaysApp->reportingData()->syncWithoutDetaching($reportingDataIds);
 
-        if (! $request->user()->finished_initial_setup) {
-            $request->user()->update([
-                'initial_setup_step' => 4,
-            ]);
-        }
-
         return toastResponse(
             redirect: route('cloudwaysApp.show', $cloudwaysApp),
             message: __('general.success'),

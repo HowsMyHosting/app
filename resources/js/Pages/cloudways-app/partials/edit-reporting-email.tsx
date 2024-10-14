@@ -50,7 +50,7 @@ Your Company Name`,
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        alert("TODO: submit form");
+        post(route("emailReport.store", cloudwaysApp));
     };
 
     return (

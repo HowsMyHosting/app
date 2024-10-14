@@ -4,6 +4,7 @@ use App\Http\Controllers\CloudwaysAppController;
 use App\Http\Controllers\CloudwaysAppReportingDataController;
 use App\Http\Controllers\CloudwaysIntegrationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailReportController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,10 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(CloudwaysAppReportingDataController::class)->group(function () {
         Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'store')->name('cloudwaysAppReportingData.store');
+    });
+
+    Route::controller(EmailReportController::class)->group(function () {
+        Route::post('cloudways/app/{cloudwaysApp:uuid}/email-report', 'store')->name('emailReport.store');
     });
 });
 

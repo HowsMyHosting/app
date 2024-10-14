@@ -30,7 +30,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_token',
         'google_refresh_token',
         'finished_initial_setup',
-        'initial_setup_step',
     ];
 
     /**
@@ -56,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    // ----------------------------------- relations
+    // ----------------------------------- relationships
 
     public function cloudwaysIntegration(): HasOne
     {

@@ -1,4 +1,4 @@
-import AddApp from "@/pages/cloudwaysApp/partials/add-app";
+import AddApp from "@/pages/cloudways-app/partials/add-app";
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
