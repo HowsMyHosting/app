@@ -76,7 +76,7 @@ class CloudwaysAppController extends Controller
 
     public function destroy(CloudwaysApp $cloudwaysApp): RedirectResponse
     {
-        // TODO: create observer to delete any associated items/emails
+        // observer will delete any associated items
         $cloudwaysApp->delete();
 
         return toastResponse(

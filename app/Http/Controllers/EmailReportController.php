@@ -27,6 +27,16 @@ class EmailReportController extends Controller
             'signature' => $validated['signature'],
         ]);
 
+        if (! $request->user()->finished_initial_setup) {
+            $request->user()->update([
+                'finished_initial_setup' => true,
+            ]);
+        }
+
+        $cloudwaysApp->update([
+            'status' => CloudwaysApp::CONNECTED,
+        ]);
+
         return toastResponse(
             redirect: route('cloudwaysApp.show', $cloudwaysApp),
             message: __('general.success'),

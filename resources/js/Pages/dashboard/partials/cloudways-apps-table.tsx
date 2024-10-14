@@ -40,7 +40,7 @@ const CloudwaysAppsTable = ({
     };
 
     return (
-        <div className="mt-14 sm:mt-20">
+        <div className="mt-10 sm:mt-14">
             <div className="flex space-y-4 sm:space-y-0 sm:flex-row flex-col justify-between sm:items-center mb-5 sm:mb-6">
                 <h1 className="font-bold text-xl">Your Cloudways Apps</h1>
 
@@ -108,7 +108,17 @@ const CloudwaysAppsTable = ({
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuItem className="space-x-2">
+                                            <DropdownMenuItem
+                                                onClick={() => {
+                                                    router.visit(
+                                                        route(
+                                                            "cloudwaysApp.show",
+                                                            cloudwaysApp.uuid,
+                                                        ),
+                                                    );
+                                                }}
+                                                className="space-x-2"
+                                            >
                                                 <Edit3Icon
                                                     color="#9ca3af"
                                                     size={15}

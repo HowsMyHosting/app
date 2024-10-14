@@ -11,6 +11,8 @@ class Integration extends Model
 {
     use HasFactory;
 
+    // ----------------------------------- constants
+
     const CLOUDWAYS = 'Cloudways';
 
     // ----------------------------------- attributes
