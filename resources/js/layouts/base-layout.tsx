@@ -1,7 +1,3 @@
-// @ts-nocheck
-// the nocheck is in place because of the type property on
-// the toast helper from sonner
-
 import { Toaster } from "@/components/ui/sonner";
 import { PageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
@@ -33,9 +29,8 @@ const BaseLayout = ({ children }: PropsWithChildren) => {
         };
 
         if (session.toast.message && !toastIds.includes(session.toast.id)) {
-            toast(session.toast.message, {
+            toast[session.toast.type](session.toast.message, {
                 description: session.toast.description,
-                type: session.toast.type,
             });
 
             updateToastIds(session.toast.id);

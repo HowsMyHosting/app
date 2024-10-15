@@ -56,22 +56,30 @@ class CloudwaysAppController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'label' => 'required|string',
-            'id' => 'required|string',
+            'apps' => 'required|array',
+            'apps.*.label' => 'required|string',
+            'apps.*.id' => 'required|string',
         ]);
 
-        $cloudwaysApp = CloudwaysApp::create([
-            'cloudways_integration_id' => $request->user()->cloudwaysIntegration->id,
-            'user_id' => $request->user()->id,
-            'label' => $validated['label'],
-            'app_id' => $validated['id'],
-        ]);
+        $cloudwaysApps = [];
 
-        return toastResponse(
-            redirect: route('cloudwaysApp.show', $cloudwaysApp),
-            message: __('general.success'),
-            description: __('general.created', ['resource' => $this->resourceName]),
-        );
+        foreach ($validated['apps'] as $app) {
+            $cloudwaysApps[] = CloudwaysApp::create([
+                'cloudways_integration_id' => $request->user()->cloudwaysIntegration->id,
+                'user_id' => $request->user()->id,
+                'label' => $app['label'],
+                'app_id' => $app['id'],
+            ])->uuid;
+        }
+
+        // TODO: redirect to a bulk "choose reporting data" page instead
+        return back();
+
+        // return toastResponse(
+        //     redirect: route('cloudwaysApp.show', $cloudwaysApp),
+        //     message: __('general.success'),
+        //     description: __('general.created', ['resource' => $this->resourceName]),
+        // );
     }
 
     public function destroy(CloudwaysApp $cloudwaysApp): RedirectResponse

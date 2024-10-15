@@ -1,9 +1,6 @@
-// @ts-nocheck
-// the nocheck is in place because of the type property on
-// the toast helper from sonner
-
 import { DrawerDialog } from "@/components/custom/drawer-dialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Command,
     CommandEmpty,
@@ -15,7 +12,12 @@ import {
 } from "@/components/ui/command";
 import { Link, router } from "@inertiajs/react";
 import axios from "axios";
-import { LoaderCircleIcon, RotateCcwIcon } from "lucide-react";
+import {
+    LoaderCircleIcon,
+    MinusCircleIcon,
+    PlusCircleIcon,
+    RotateCcwIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -34,7 +36,7 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [servers, setServers] = useState<Server[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const [selectedApp, setSelectedApp] = useState<App>();
+    const [selectedApps, setSelectedApps] = useState<App[]>([]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -63,22 +65,35 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
                 setServersLoading(false);
             })
             .catch(({ response }) => {
-                toast(response.data.message, {
+                toast.error(response.data.message, {
                     description: response.data.description,
-                    type: "error",
                 });
 
                 setServersLoading(false);
             });
     };
 
-    const handleStoreApp = () => {
+    const handleStoreApps = () => {
         setIsLoading(true);
 
         router.post(route("cloudwaysApp.store"), {
-            label: selectedApp?.label,
-            id: selectedApp?.id,
+            apps: selectedApps,
         });
+    };
+
+    const getAllApps = () => {
+        return servers.flatMap((server) =>
+            server.apps.filter((app) => !existingAppIds.includes(app.id)),
+        );
+    };
+
+    const handleSelectAll = () => {
+        const allApps = getAllApps();
+        if (selectedApps.length === allApps.length) {
+            setSelectedApps([]);
+        } else {
+            setSelectedApps(allApps);
+        }
     };
 
     return (
@@ -87,7 +102,7 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
                 Add an app<span className="mx-1">/</span>website
             </h1>
 
-            <p className="mb-7 text-sm">
+            <p className="mb-4 text-sm">
                 Pick one of your apps from the list below.
             </p>
 
@@ -98,6 +113,22 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
                 </div>
             ) : (
                 <>
+                    <Button
+                        variant="link"
+                        className="text-gray-800 p-0 font-normal text-[13px] mb-1"
+                        onClick={handleSelectAll}
+                    >
+                        {selectedApps.length === getAllApps().length ? (
+                            <span className="flex items-center gap-x-1">
+                                <MinusCircleIcon size={14} /> Deselect all
+                            </span>
+                        ) : (
+                            <span className="flex items-center gap-x-1">
+                                <PlusCircleIcon size={14} /> Select all
+                            </span>
+                        )}
+                    </Button>
+
                     <Command
                         loop={true}
                         defaultValue=""
@@ -124,11 +155,32 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
                                                 keywords={[app.label]}
                                                 key={index}
                                                 onSelect={() => {
-                                                    setSelectedApp(app);
-                                                    setOpenDialog(true);
+                                                    setSelectedApps(
+                                                        selectedApps.includes(
+                                                            app,
+                                                        )
+                                                            ? selectedApps.filter(
+                                                                  (a) =>
+                                                                      a.id !==
+                                                                      app.id,
+                                                              )
+                                                            : [
+                                                                  ...selectedApps,
+                                                                  app,
+                                                              ],
+                                                    );
                                                 }}
                                             >
-                                                <span>{app.label}</span>
+                                                <div className="flex items-center space-x-3">
+                                                    <Checkbox
+                                                        checked={selectedApps.some(
+                                                            (selectedApp) =>
+                                                                selectedApp.id ===
+                                                                app.id,
+                                                        )}
+                                                    />
+                                                    <span>{app.label}</span>
+                                                </div>
                                             </CommandItem>
                                         ))}
                                     </CommandGroup>
@@ -137,35 +189,48 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
                         </CommandList>
                     </Command>
 
-                    <Button
-                        rounded="pill"
-                        variant="secondary"
-                        size="sm"
-                        className="mt-4 px-4"
-                        onClick={refreshCloudwaysServers}
-                    >
-                        <RotateCcwIcon size={13} className="mr-1" /> Refresh
-                        list
-                    </Button>
+                    <div className="flex space-x-2 mt-5">
+                        <Button
+                            size="sm"
+                            onClick={() => setOpenDialog(true)}
+                            disabled={selectedApps.length === 0}
+                        >
+                            Continue
+                        </Button>
+
+                        <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={refreshCloudwaysServers}
+                        >
+                            <RotateCcwIcon size={14} className="mr-[5px]" />
+                            Refresh list
+                        </Button>
+                    </div>
 
                     <DrawerDialog
                         title="Confirm your selection"
                         description={
-                            <span>
-                                You've selected to report on{" "}
-                                <span className="underline underline-offset-2">
-                                    {selectedApp?.label}
-                                </span>{" "}
-                                for an additional $2/month. Do you want to
-                                proceed?
-                            </span>
+                            <>
+                                <span>
+                                    Great choice! You've selected the apps below
+                                    to report on for $2/month each. Ready to
+                                    continue?
+                                </span>
+
+                                <div className="space-y-[3px] bg-muted p-4 rounded-lg mt-4 max-h-[150px] overflow-y-auto">
+                                    {selectedApps.map((app) => (
+                                        <div key={app.id}>{app.label}</div>
+                                    ))}
+                                </div>
+                            </>
                         }
                         body={
                             <Button
                                 isLoading={isLoading}
-                                loadingText="Creating..."
+                                loadingText="Continuing..."
                                 showSpinner
-                                onClick={handleStoreApp}
+                                onClick={handleStoreApps}
                                 className="w-full"
                             >
                                 Continue
