@@ -57,12 +57,12 @@ const ChooseReportingData = ({
     return (
         <>
             {showStepper && (
-                <div className="w-full sm:max-w-md mt-[10px] sm:mt-[40px] mx-auto pt-4">
+                <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
                     <Stepper steps={steps} />
                 </div>
             )}
 
-            <div className="w-full sm:max-w-md mt-[10px] sm:mt-[40px] mx-auto pt-4">
+            <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
                 <h1 className="font-bold text-xl sm:text-2xl mb-1 sm:mb-3">
                     Choose reporting data
                 </h1>

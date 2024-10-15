@@ -11,7 +11,7 @@ const AddFirstApp = ({
 }) => {
     return (
         <>
-            <div className="w-full sm:max-w-md sm:mt-[40px] mx-auto pt-6 sm:pt-12">
+            <div className="w-full sm:max-w-md sm:mt-[30px] mx-auto pt-6 sm:pt-12">
                 <Stepper steps={steps} />
             </div>
 

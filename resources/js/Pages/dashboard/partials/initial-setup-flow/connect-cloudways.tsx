@@ -20,11 +20,11 @@ const ConnectCloudways = ({ steps }: { steps: Steps }) => {
 
     return (
         <>
-            <div className="w-full sm:max-w-md sm:mt-[40px] mx-auto pt-6 sm:pt-12">
+            <div className="w-full sm:max-w-md sm:mt-[30px] mx-auto pt-6 sm:pt-12">
                 <Stepper steps={steps} />
             </div>
 
-            <div className="w-full sm:max-w-md mt-[10px] sm:mt-[40px] mx-auto pt-4">
+            <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
                 <h1 className="font-bold text-xl sm:text-2xl mb-3">
                     Connect to Cloudways
                 </h1>
