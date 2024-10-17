@@ -1,56 +1,43 @@
 import Stepper from "@/components/custom/stepper";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { initialSetupSteps } from "@/lib/utils";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { router, usePage } from "@inertiajs/react";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 import { useState } from "react";
 
-const ChooseReportingData = ({
-    showStepper = false,
-    cloudwaysApp,
-}: {
+type ChooseReportingDataProps = {
     showStepper?: boolean;
-    cloudwaysApp: LocalCloudwaysApp;
-}) => {
-    const { reportingData } = usePage<PageProps & { reportingData: string[] }>()
-        .props;
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [selectedReportingData, setSelectedReportingData] = useState<
-        string[]
-    >([]);
+    cloudwaysApp?: LocalCloudwaysApp;
+    cloudwaysApps?: LocalCloudwaysApp[];
+};
 
-    const steps = [
-        {
-            label: "Connect to Cloudways",
-            passed: true,
-            current: false,
-        },
-        {
-            label: "Add an app/website",
-            passed: true,
-            current: false,
-        },
-        {
-            label: "Choose reporting data",
-            passed: false,
-            current: true,
-        },
-        {
-            label: "Set up email report",
-            passed: false,
-            current: false,
-        },
-    ];
+const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps }: ChooseReportingDataProps) => {
+    const { reportingData } = usePage<PageProps & { reportingData: string[] }>().props;
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectedReportingData, setSelectedReportingData] = useState<string[]>([]);
+    const isBulk = cloudwaysApps && cloudwaysApps.length > 1;
 
     const handleStoreReportingData = () => {
         setIsLoading(true);
 
+        const data: {
+            reportingData: string[];
+            cloudwaysApps?: string[];
+        } = {
+            reportingData: selectedReportingData,
+        };
+
+        if (isBulk) {
+            data.cloudwaysApps = cloudwaysApps.map((app) => app.uuid);
+        }
+
         router.post(
-            route("cloudwaysAppReportingData.store", cloudwaysApp.uuid),
-            {
-                reportingData: selectedReportingData,
-            },
+            isBulk
+                ? route("cloudwaysAppReportingData.store.bulk")
+                : route("cloudwaysAppReportingData.store", cloudwaysApp?.uuid),
+            data,
         );
     };
 
@@ -58,28 +45,23 @@ const ChooseReportingData = ({
         <>
             {showStepper && (
                 <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
-                    <Stepper steps={steps} />
+                    <Stepper steps={initialSetupSteps("chooseReportingData")} />
                 </div>
             )}
 
             <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
-                <h1 className="font-bold text-xl sm:text-2xl mb-1 sm:mb-3">
-                    Choose reporting data
-                </h1>
+                <h1 className="font-bold text-xl sm:text-2xl mb-1 sm:mb-3">Choose reporting data</h1>
 
                 <p className="mb-7 text-sm">
-                    Select relevant data from Cloudways below to include in your
-                    monthly report email.
+                    Select relevant data from Cloudways below to include in your monthly report{" "}
+                    {isBulk ? "emails" : "email"}
                 </p>
 
                 <Button
                     variant="link"
                     className="text-gray-800 p-0 font-normal text-[13px] mb-1"
                     onClick={() => {
-                        if (
-                            selectedReportingData.length ===
-                            reportingData.length
-                        ) {
+                        if (selectedReportingData.length === reportingData.length) {
                             setSelectedReportingData([]);
                         } else {
                             setSelectedReportingData(reportingData);
@@ -102,27 +84,18 @@ const ChooseReportingData = ({
                         <label
                             htmlFor={dataName}
                             className={`flex items-center space-x-2 shadow px-4 py-3 border border-muted rounded-lg cursor-pointer hover:translate-y-[-2px] transition-all ${
-                                selectedReportingData.includes(dataName)
-                                    ? "bg-gray-50"
-                                    : ""
+                                selectedReportingData.includes(dataName) ? "bg-gray-50" : ""
                             }`}
                         >
                             <Checkbox
                                 id={dataName}
-                                checked={selectedReportingData.includes(
-                                    dataName,
-                                )}
+                                checked={selectedReportingData.includes(dataName)}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setSelectedReportingData([
-                                            ...selectedReportingData,
-                                            dataName,
-                                        ]);
+                                        setSelectedReportingData([...selectedReportingData, dataName]);
                                     } else {
                                         setSelectedReportingData(
-                                            selectedReportingData.filter(
-                                                (data) => data !== dataName,
-                                            ),
+                                            selectedReportingData.filter((data) => data !== dataName),
                                         );
                                     }
                                 }}

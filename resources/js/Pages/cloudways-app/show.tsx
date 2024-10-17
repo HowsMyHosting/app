@@ -1,13 +1,10 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import ChooseReportingData from "@/pages/cloudways-app/partials/choose-reporting-data";
+import ChooseReportingData from "@/pages/choose-reporting-data/partials/choose-reporting-data";
 import EditReportingEmail from "@/pages/cloudways-app/partials/edit-reporting-email";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
-const Show = ({
-    auth,
-    cloudwaysApp,
-}: PageProps & { cloudwaysApp: LocalCloudwaysApp }) => {
+const Show = ({ auth, cloudwaysApp }: PageProps & { cloudwaysApp: LocalCloudwaysApp }) => {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title={cloudwaysApp.label} />
@@ -24,9 +21,7 @@ const Show = ({
                             <>
                                 <ChooseReportingData
                                     cloudwaysApp={cloudwaysApp}
-                                    showStepper={
-                                        !auth.user.finished_initial_setup
-                                    }
+                                    showStepper={!auth.user.finished_initial_setup}
                                 />
                             </>
                         ) : (
@@ -34,9 +29,7 @@ const Show = ({
                             <>
                                 <EditReportingEmail
                                     cloudwaysApp={cloudwaysApp}
-                                    showStepper={
-                                        !auth.user.finished_initial_setup
-                                    }
+                                    showStepper={!auth.user.finished_initial_setup}
                                 />
                             </>
                         )}

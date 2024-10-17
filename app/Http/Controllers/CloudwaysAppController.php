@@ -8,7 +8,6 @@ use App\Models\CloudwaysApp;
 use App\Models\Integration;
 use App\Services\CloudwaysApiService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -51,35 +50,6 @@ class CloudwaysAppController extends Controller
                 ['label' => 'Add a Cloudways App', 'href' => ''],
             ],
         ]);
-    }
-
-    public function store(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'apps' => 'required|array',
-            'apps.*.label' => 'required|string',
-            'apps.*.id' => 'required|string',
-        ]);
-
-        $cloudwaysApps = [];
-
-        foreach ($validated['apps'] as $app) {
-            $cloudwaysApps[] = CloudwaysApp::create([
-                'cloudways_integration_id' => $request->user()->cloudwaysIntegration->id,
-                'user_id' => $request->user()->id,
-                'label' => $app['label'],
-                'app_id' => $app['id'],
-            ])->uuid;
-        }
-
-        // TODO: redirect to a bulk "choose reporting data" page instead
-        return back();
-
-        // return toastResponse(
-        //     redirect: route('cloudwaysApp.show', $cloudwaysApp),
-        //     message: __('general.success'),
-        //     description: __('general.created', ['resource' => $this->resourceName]),
-        // );
     }
 
     public function destroy(CloudwaysApp $cloudwaysApp): RedirectResponse

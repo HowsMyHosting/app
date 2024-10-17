@@ -3,6 +3,7 @@ import Stepper from "@/components/custom/stepper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { initialSetupSteps } from "@/lib/utils";
 import { LocalCloudwaysApp } from "@/types";
 import { useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
@@ -14,29 +15,6 @@ const EditReportingEmail = ({
     showStepper?: boolean;
     cloudwaysApp: LocalCloudwaysApp;
 }) => {
-    const steps = [
-        {
-            label: "Connect to Cloudways",
-            passed: true,
-            current: false,
-        },
-        {
-            label: "Add an app/website",
-            passed: true,
-            current: false,
-        },
-        {
-            label: "Choose reporting data",
-            passed: true,
-            current: false,
-        },
-        {
-            label: "Set up email report",
-            passed: false,
-            current: true,
-        },
-    ];
-
     const { setData, post, processing, errors, data } = useForm({
         subject: `${cloudwaysApp.label} Monthly Report`,
         recipients: [] as string[],
@@ -57,7 +35,7 @@ Your Company Name`,
         <>
             {showStepper && (
                 <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
-                    <Stepper steps={steps} />
+                    <Stepper steps={initialSetupSteps("setupEmailReport")} />
                 </div>
             )}
 
@@ -67,7 +45,6 @@ Your Company Name`,
                 </h1>
 
                 <p className="mb-7 text-sm">
-                    {/* TODO: this can be improved below... */}
                     Set up the monthly email report for {cloudwaysApp.label}. It
                     will be sent on the first day of every month to the
                     recipients you specify below.
