@@ -30,29 +30,17 @@ type DrawerDialogProps = {
     setOpenDialog?: (open: boolean) => void;
 };
 
-export function DrawerDialog({
-    title,
-    description,
-    trigger,
-    body,
-    openDialog,
-    setOpenDialog,
-}: DrawerDialogProps) {
+export function DrawerDialog({ title, description, trigger, body, openDialog, setOpenDialog }: DrawerDialogProps) {
     const [open, setOpen] = React.useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     if (isDesktop) {
         return (
-            <Dialog
-                open={openDialog ?? open}
-                onOpenChange={setOpenDialog ?? setOpen}
-            >
-                {trigger ? (
-                    <DialogTrigger asChild>{trigger}</DialogTrigger>
-                ) : null}
+            <Dialog open={openDialog ?? open} onOpenChange={setOpenDialog ?? setOpen}>
+                {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
 
                 <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader className="mb-3">
+                    <DialogHeader className="mb-1">
                         <DialogTitle className="mb-3">{title}</DialogTitle>
                         <DialogDescription>{description}</DialogDescription>
                     </DialogHeader>
@@ -63,10 +51,7 @@ export function DrawerDialog({
     }
 
     return (
-        <Drawer
-            open={openDialog ?? open}
-            onOpenChange={setOpenDialog ?? setOpen}
-        >
+        <Drawer open={openDialog ?? open} onOpenChange={setOpenDialog ?? setOpen}>
             {trigger ? <DrawerTrigger asChild>{trigger}</DrawerTrigger> : null}
 
             <DrawerContent>

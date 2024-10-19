@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import ChooseReportingData from "@/pages/choose-reporting-data/partials/choose-reporting-data";
-import EditReportingEmail from "@/pages/cloudways-app/partials/edit-reporting-email";
+import ChooseReportingData from "@/pages/reporting-data/partials/choose-reporting-data";
+import EditReportingEmail from "@/pages/email-report/partials/edit-reporting-email";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 

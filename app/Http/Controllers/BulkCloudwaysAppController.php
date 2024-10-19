@@ -16,7 +16,7 @@ class BulkCloudwaysAppController extends Controller
             'apps.*.id' => 'required|string',
         ]);
 
-        $cloudwaysApps = [];
+        $cloudwaysAppIds = [];
 
         foreach ($validated['apps'] as $app) {
             $cloudwaysApp = CloudwaysApp::create([
@@ -26,21 +26,26 @@ class BulkCloudwaysAppController extends Controller
                 'app_id' => $app['id'],
             ]);
 
-            $cloudwaysApps[] = $cloudwaysApp->id;
+            $cloudwaysAppIds[] = $cloudwaysApp->id;
         }
 
-        if (count($cloudwaysApps) > 1) {
+        /**
+         * If there's only one app then continue the singular
+         * app onboarding flow.
+         */
+        if (count($cloudwaysAppIds) === 1) {
             return toastResponse(
-                redirect: route('cloudwaysAppReportingData.show.bulk', ['cloudwaysApps' => implode(',', $cloudwaysApps)]),
+                redirect: route('cloudwaysApp.show', $cloudwaysApp->uuid),
                 message: __('general.success'),
-                description: __('general.added', ['resource' => 'Cloudways Apps']),
+                description: __('general.added', ['resource' => 'Cloudways App']),
             );
+
         }
 
         return toastResponse(
-            redirect: route('cloudwaysApp.show', $cloudwaysApp->uuid),
+            redirect: route('cloudwaysAppReportingData.show.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
-            description: __('general.added', ['resource' => 'Cloudways App']),
+            description: __('general.added', ['resource' => 'Cloudways Apps']),
         );
     }
 }

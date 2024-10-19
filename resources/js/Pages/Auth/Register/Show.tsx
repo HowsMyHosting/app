@@ -7,9 +7,7 @@ const Show = () => {
         <GuestLayout>
             <Head title="Register" />
 
-            <h1 className="font-bold text-[23px] sm:text-3xl sm:text-center mb-1 sm:mb-2">
-                Sign up today 🚀
-            </h1>
+            <h1 className="font-bold text-[23px] sm:text-[28px] sm:text-center mb-1">Sign up today 🚀</h1>
 
             <p className="sm:text-center mb-7 text-sm">
                 Already have an account?{" "}

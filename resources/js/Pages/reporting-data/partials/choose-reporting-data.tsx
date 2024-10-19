@@ -109,6 +109,7 @@ const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps 
 
                 <Button
                     className="mt-6"
+                    size="sm"
                     isLoading={isLoading}
                     showSpinner
                     loadingText="One moment..."

@@ -11,8 +11,7 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default:
-                    "bg-primary text-primary-foreground hover:bg-primary/90 hover:translate-y-[-2px]",
+                default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:translate-y-[-2px]",
                 destructive:
                     "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:translate-y-[-2px]",
                 outline:
@@ -24,7 +23,7 @@ const buttonVariants = cva(
             },
             size: {
                 default: "h-10 px-5 py-2",
-                sm: "h-9 px-4 text-[14px]",
+                sm: "h-[38px] px-4 text-[14px]",
                 lg: "h-12 px-8",
                 icon: "h-9 w-9",
             },
@@ -74,25 +73,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             if (props.type === "submit" || showSpinner) {
                 props.children = (
                     <>
-                        <LoaderCircleIcon
-                            size={15}
-                            className="mr-2 animate-spin"
-                        />
+                        <LoaderCircleIcon size={15} className="mr-2 animate-spin" />
                         {loadingText ? loadingText : null}
                     </>
                 );
             }
         }
 
-        return (
-            <Comp
-                className={cn(
-                    buttonVariants({ variant, size, rounded, className }),
-                )}
-                ref={ref}
-                {...props}
-            />
-        );
+        return <Comp className={cn(buttonVariants({ variant, size, rounded, className }))} ref={ref} {...props} />;
     },
 );
 Button.displayName = "Button";

@@ -57,17 +57,12 @@ const LoginForm = () => {
                         <Checkbox
                             name="remember"
                             checked={data.remember}
-                            onChange={(e) =>
-                                setData("remember", e.target.checked)
-                            }
+                            onChange={(e) => setData("remember", e.target.checked)}
                         />
                         <span className="ms-2 text-sm">Remember me</span>
                     </label>
 
-                    <Link
-                        href={route("password.request")}
-                        className="underline text-sm"
-                    >
+                    <Link href={route("password.request")} className="underline text-sm">
                         Forgot your password?
                     </Link>
                 </div>

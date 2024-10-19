@@ -1,17 +1,11 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import React, { useState, PropsWithChildren, ReactNode } from "react";
 import ResponsiveNavLink from "@/components/responsive-nav-link";
 import { Link, router, usePage } from "@inertiajs/react";
 import { PageProps, User } from "@/types";
 import BaseLayout from "@/layouts/base-layout";
 import ApplicationLogo from "@/components/application-logo";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-    ChevronDownIcon,
-    LogOutIcon,
-    ReceiptIcon,
-    UserCircle,
-    UserCircleIcon,
-} from "lucide-react";
+import { ChevronDownIcon, LogOutIcon, ReceiptIcon, UserCircle, UserCircleIcon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -33,16 +27,10 @@ type BreadcrumbItem = {
     href: string;
 };
 
-const Authenticated = ({
-    user,
-    children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) => {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+const Authenticated = ({ user, children }: PropsWithChildren<{ user: User; header?: ReactNode }>) => {
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    const { breadcrumbs } = usePage<
-        PageProps & { breadcrumbs: BreadcrumbItem[] }
-    >().props;
+    const { breadcrumbs } = usePage<PageProps & { breadcrumbs: BreadcrumbItem[] }>().props;
 
     return (
         <BaseLayout>
@@ -78,36 +66,21 @@ const Authenticated = ({
                                         <DropdownMenuContent className="w-48">
                                             <DropdownMenuItem
                                                 className="space-x-2"
-                                                onClick={() =>
-                                                    router.visit(
-                                                        route("profile.edit"),
-                                                    )
-                                                }
+                                                onClick={() => router.visit(route("profile.edit"))}
                                             >
-                                                <UserCircleIcon
-                                                    color="#9ca3af"
-                                                    size={15}
-                                                />
+                                                <UserCircleIcon color="#9ca3af" size={15} />
                                                 <span>Profile</span>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem className="space-x-2">
-                                                <ReceiptIcon
-                                                    color="#9ca3af"
-                                                    size={15}
-                                                />
+                                                <ReceiptIcon color="#9ca3af" size={15} />
                                                 <span>Billing</span>
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem
                                                 className="space-x-2"
-                                                onClick={() =>
-                                                    router.post("/logout")
-                                                }
+                                                onClick={() => router.post("/logout")}
                                             >
-                                                <LogOutIcon
-                                                    color="#9ca3af"
-                                                    size={15}
-                                                />
+                                                <LogOutIcon color="#9ca3af" size={15} />
                                                 <span>Log out</span>
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
@@ -117,36 +90,19 @@ const Authenticated = ({
 
                             <div className="-me-2 flex items-center sm:hidden">
                                 <button
-                                    onClick={() =>
-                                        setShowingNavigationDropdown(
-                                            (previousState) => !previousState,
-                                        )
-                                    }
+                                    onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                     className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                                 >
-                                    <svg
-                                        className="h-6 w-6"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
+                                    <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                         <path
-                                            className={
-                                                !showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }
+                                            className={!showingNavigationDropdown ? "inline-flex" : "hidden"}
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                             strokeWidth="2"
                                             d="M4 6h16M4 12h16M4 18h16"
                                         />
                                         <path
-                                            className={
-                                                showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }
+                                            className={showingNavigationDropdown ? "inline-flex" : "hidden"}
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                             strokeWidth="2"
@@ -158,27 +114,16 @@ const Authenticated = ({
                         </div>
                     </div>
 
-                    <div
-                        className={
-                            (showingNavigationDropdown
-                                ? "block border-b"
-                                : "hidden") + " sm:hidden"
-                        }
-                    >
+                    <div className={(showingNavigationDropdown ? "block border-b" : "hidden") + " sm:hidden"}>
                         <div className="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                            >
+                            <ResponsiveNavLink href={route("dashboard")} active={route().current("dashboard")}>
                                 Dashboard
                             </ResponsiveNavLink>
                         </div>
 
                         <div className="pt-4 pb-1 border-t border-gray-200">
                             <div className="px-4">
-                                <div className="font-medium text-sm text-gray-500">
-                                    {user.email}
-                                </div>
+                                <div className="font-medium text-sm text-gray-500">{user.email}</div>
                             </div>
 
                             <div className="mt-3 space-y-1">
@@ -188,11 +133,7 @@ const Authenticated = ({
                                 >
                                     Profile
                                 </ResponsiveNavLink>
-                                <ResponsiveNavLink
-                                    method="post"
-                                    href={route("logout")}
-                                    as="button"
-                                >
+                                <ResponsiveNavLink method="post" href={route("logout")} as="button">
                                     Log Out
                                 </ResponsiveNavLink>
                             </div>
@@ -206,26 +147,18 @@ const Authenticated = ({
                             <Breadcrumb className="mt-5">
                                 <BreadcrumbList>
                                     {breadcrumbs.map((breadcrumb, index) => (
-                                        <BreadcrumbItem
-                                            key={breadcrumb.href || index}
-                                        >
-                                            {index > 0 && (
-                                                <BreadcrumbSeparator />
-                                            )}
-                                            {breadcrumb.href ? (
-                                                <BreadcrumbLink asChild>
-                                                    <Link
-                                                        href={breadcrumb.href}
-                                                    >
-                                                        {breadcrumb.label}
-                                                    </Link>
-                                                </BreadcrumbLink>
-                                            ) : (
-                                                <BreadcrumbPage>
-                                                    {breadcrumb.label}
-                                                </BreadcrumbPage>
-                                            )}
-                                        </BreadcrumbItem>
+                                        <React.Fragment key={breadcrumb.href || index}>
+                                            {index > 0 && <BreadcrumbSeparator />}
+                                            <BreadcrumbItem key={breadcrumb.href || index}>
+                                                {breadcrumb.href ? (
+                                                    <BreadcrumbLink asChild>
+                                                        <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+                                                    </BreadcrumbLink>
+                                                ) : (
+                                                    <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+                                                )}
+                                            </BreadcrumbItem>
+                                        </React.Fragment>
                                     ))}
                                 </BreadcrumbList>
                             </Breadcrumb>

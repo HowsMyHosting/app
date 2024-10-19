@@ -40,7 +40,7 @@ class BulkCloudwaysAppReportingDataController extends Controller
             ->pluck('name')
             ->toArray();
 
-        return inertia('choose-reporting-data/show-bulk', [
+        return inertia('reporting-data/show-bulk', [
             'cloudwaysApps' => $cloudwaysApps,
             'reportingData' => $reportingData,
             'breadcrumbs' => [
@@ -54,18 +54,24 @@ class BulkCloudwaysAppReportingDataController extends Controller
     {
         $validated = $request->validate([
             'reportingData' => 'required|array',
+            'reportingData.*' => 'required|string|exists:reporting_datas,name',
             'cloudwaysApps' => 'required|array',
+            'cloudwaysApps.*' => 'required|uuid|exists:cloudways_apps,uuid',
         ]);
+
+        $cloudwaysAppIds = [];
 
         $reportingDataIds = ReportingData::whereIn('name', $validated['reportingData'])->pluck('id')->toArray();
         $cloudwaysApps = $request->user()->cloudwaysApps()->whereIn('uuid', $validated['cloudwaysApps'])->get();
 
         foreach ($cloudwaysApps as $cloudwaysApp) {
             $cloudwaysApp->reportingData()->syncWithoutDetaching($reportingDataIds);
+
+            $cloudwaysAppIds[] = $cloudwaysApp->id;
         }
 
         return toastResponse(
-            redirect: route('cloudwaysApp.show', $cloudwaysApp),
+            redirect: route('emailReport.show.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
             description: __('general.updated', ['resource' => $this->resourceName]),
         );

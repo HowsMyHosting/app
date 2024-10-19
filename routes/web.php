@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BulkCloudwaysAppController;
 use App\Http\Controllers\BulkCloudwaysAppReportingDataController;
+use App\Http\Controllers\BulkEmailReportController;
 use App\Http\Controllers\CloudwaysAppController;
 use App\Http\Controllers\CloudwaysAppReportingDataController;
 use App\Http\Controllers\CloudwaysIntegrationController;
@@ -59,7 +60,12 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(EmailReportController::class)->group(function () {
-            Route::post('cloudways/app/{cloudwaysApp:uuid}/email-report', 'store')->name('emailReport.store');
+            Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-email', 'store')->name('emailReport.store');
+        });
+
+        Route::controller(BulkEmailReportController::class)->group(function () {
+            Route::get('cloudways/app/email-report/bulk', 'show')->name('emailReport.show.bulk');
+            // Route::post('cloudways/app/reporting-data/bulk', 'store')->name('cloudwaysAppReportingData.store.bulk');
         });
     });
 });

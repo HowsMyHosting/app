@@ -25,18 +25,11 @@ const ConnectCloudways = ({ steps }: { steps: Steps }) => {
             </div>
 
             <div className="w-full sm:max-w-md mt-[10px] sm:mt-[30px] mx-auto pt-4">
-                <h1 className="font-bold text-xl sm:text-2xl mb-3">
-                    Connect to Cloudways
-                </h1>
+                <h1 className="font-bold text-xl sm:text-2xl mb-3">Connect to Cloudways</h1>
 
                 <p className="mb-7 text-sm">
                     Hi there! 👋 Just grab your API key from your{" "}
-                    <a
-                        href="https://platform.cloudways.com/api"
-                        target="_blank"
-                        rel="nofollow"
-                        className="underline"
-                    >
+                    <a href="https://platform.cloudways.com/api" target="_blank" rel="nofollow" className="underline">
                         your Cloudways account
                     </a>{" "}
                     and pop it in below to get started!
@@ -62,7 +55,7 @@ const ConnectCloudways = ({ steps }: { steps: Steps }) => {
                         />
                     </div>
 
-                    <Button type="submit" loadingText="Connecting...">
+                    <Button size="sm" type="submit" loadingText="Connecting...">
                         Connect to Cloudways
                     </Button>
                 </Form>

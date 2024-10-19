@@ -6,8 +6,7 @@ import InputError from "@/components/input-error";
 import { FormContext } from "@/hooks/form-context";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
-export interface InputProps
-    extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     errorMessage?: string;
     showPassword?: boolean;
@@ -24,9 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const handleShowPassword = () => {
             if (type !== "password" && type !== "text") {
-                console.error(
-                    `Original type has to be "text" if you want to use showPassword`,
-                );
+                console.error(`Original type has to be "text" if you want to use showPassword`);
             }
 
             if (inputType === "password") {
@@ -38,20 +35,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         return (
             <>
-                {label ? (
-                    <InputLabel
-                        htmlFor={props.id}
-                        value={label}
-                        className="mb-[6px]"
-                    />
-                ) : null}
+                {label ? <InputLabel htmlFor={props.id} value={label} className="mb-[6px]" /> : null}
 
-                <div
-                    className={cn(
-                        "relative",
-                        showPassword ? "show-password" : "",
-                    )}
-                >
+                <div className={cn("relative", showPassword ? "show-password" : "")}>
                     <input
                         type={inputType}
                         className={cn(
@@ -63,15 +49,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     />
 
                     {showPassword && (
-                        <div
-                            className="absolute top-[12px] right-[15px] cursor-pointer"
-                            onClick={handleShowPassword}
-                        >
-                            {inputType === "password" ? (
-                                <EyeIcon size={18} />
-                            ) : (
-                                <EyeOffIcon size={18} />
-                            )}
+                        <div className="absolute top-[12px] right-[15px] cursor-pointer" onClick={handleShowPassword}>
+                            {inputType === "password" ? <EyeIcon size={18} /> : <EyeOffIcon size={18} />}
                         </div>
                     )}
                 </div>

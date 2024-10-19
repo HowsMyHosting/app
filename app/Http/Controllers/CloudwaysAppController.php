@@ -47,7 +47,7 @@ class CloudwaysAppController extends Controller
             'existingAppIds' => $cloudwaysIntegration->apps->pluck('app_id')->toArray(),
             'breadcrumbs' => [
                 ['label' => 'Dashboard', 'href' => route('dashboard')],
-                ['label' => 'Add a Cloudways App', 'href' => ''],
+                ['label' => 'Add your Cloudways Apps', 'href' => ''],
             ],
         ]);
     }
