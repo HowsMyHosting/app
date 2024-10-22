@@ -50,10 +50,6 @@ Your Company Name`,
             })) || ([] as BulkRecipients[]),
     });
 
-    const requiredFieldsMissing = () => {
-        return;
-    };
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -116,7 +112,7 @@ Your Company Name`,
                                     </span>
                                 </div>
                             </SheetTrigger>
-                            <SheetContent className="w-full sm:w-[540px]">
+                            <SheetContent className="w-full sm:w-[600px] min-h-full overflow-y-auto">
                                 <SheetHeader>
                                     <SheetTitle>Add each apps recipient(s)</SheetTitle>
                                     <SheetDescription className="text-muted-foreground">
@@ -161,7 +157,7 @@ Your Company Name`,
                                 <SheetFooter>
                                     <SheetClose asChild>
                                         <Button type="button" size="sm">
-                                            Finish
+                                            Continue
                                         </Button>
                                     </SheetClose>
                                 </SheetFooter>

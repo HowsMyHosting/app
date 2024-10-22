@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(BulkEmailReportController::class)->group(function () {
             Route::get('cloudways/app/email-report/bulk', 'show')->name('emailReport.show.bulk');
-            // Route::post('cloudways/app/reporting-data/bulk', 'store')->name('cloudwaysAppReportingData.store.bulk');
+            Route::post('cloudways/app/email-report/bulk', 'store')->name('emailReport.store.bulk');
         });
     });
 });
