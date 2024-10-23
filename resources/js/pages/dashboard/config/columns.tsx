@@ -55,7 +55,7 @@ export const columns: ColumnDef<LocalCloudwaysApp>[] = [
         header: ({ column }) => <ColumnHeader className="hidden sm:flex" column={column} title="App ID" />,
         cell: ({ row }) => (
             <div className="hidden sm:block">
-                <code className="bg-gray-200 inline-block rounded py-[5px] px-[8px] text-xs">
+                <code className="bg-muted inline-block rounded py-[5px] px-[8px] text-xs">
                     {row.getValue("app_id")}
                 </code>
             </div>

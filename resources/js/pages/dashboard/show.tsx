@@ -9,7 +9,7 @@ const Show = ({ auth, cloudwaysApps }: PageProps & { cloudwaysApps: LocalCloudwa
         <AuthenticatedLayout user={auth.user}>
             <Head title="Dashboard" />
 
-            <div className="container">
+            <div className="container pb-16">
                 {auth.user.finished_initial_setup || auth.user.addedFirstApp ? (
                     <CloudwaysAppsTable cloudwaysApps={cloudwaysApps} />
                 ) : (
