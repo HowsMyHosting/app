@@ -10,9 +10,7 @@ export interface User {
     addedFirstApp: boolean;
 }
 
-export type PageProps<
-    T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
     };
@@ -27,6 +25,7 @@ export type PageProps<
 };
 
 export type LocalCloudwaysApp = {
+    id: number;
     uuid: UUID;
     app_id: string;
     label: string;

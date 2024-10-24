@@ -11,13 +11,14 @@ class BulkCloudwaysAppReportingDataController extends Controller
 {
     public string $resourceName = 'Reporting data';
 
-    public function show(Request $request)
+    public function create(Request $request)
     {
         if (! $request->has('cloudwaysApps')) {
             return toastResponse(
                 redirect: route('dashboard'),
                 message: __('general.failed'),
                 description: __('general.not_found', ['resource' => 'Cloudways Apps']),
+                type: 'error',
             );
         }
 
@@ -31,6 +32,7 @@ class BulkCloudwaysAppReportingDataController extends Controller
                 redirect: route('dashboard'),
                 message: __('general.failed'),
                 description: __('general.not_found', ['resource' => 'Cloudways Apps']),
+                type: 'error',
             );
         }
 
@@ -71,7 +73,7 @@ class BulkCloudwaysAppReportingDataController extends Controller
         }
 
         return toastResponse(
-            redirect: route('emailReport.show.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
+            redirect: route('emailReport.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
             description: __('general.updated', ['resource' => $this->resourceName]),
         );

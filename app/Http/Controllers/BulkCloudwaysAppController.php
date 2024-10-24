@@ -43,9 +43,29 @@ class BulkCloudwaysAppController extends Controller
         }
 
         return toastResponse(
-            redirect: route('cloudwaysAppReportingData.show.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
+            redirect: route('cloudwaysAppReportingData.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
             description: __('general.added', ['resource' => 'Cloudways Apps']),
+        );
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'cloudwaysApps' => 'required|array',
+            'cloudwaysApps.*' => 'required|uuid',
+        ]);
+
+        foreach ($validated['cloudwaysApps'] as $cloudwaysAppUuid) {
+            CloudwaysApp::where('uuid', $cloudwaysAppUuid)
+                ->firstOrFail()
+                ->delete();
+        }
+
+        return toastResponse(
+            redirect: route('dashboard'),
+            message: __('general.success'),
+            description: __('general.removed', ['resource' => 'Cloudways Apps']),
         );
     }
 }

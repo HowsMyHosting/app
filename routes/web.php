@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(BulkCloudwaysAppController::class)->group(function () {
             Route::post('cloudways/apps/bulk', 'store')->name('cloudwaysApp.store.bulk');
+            Route::delete('cloudways/apps/bulk', 'destroy')->name('cloudwaysApp.destroy.bulk');
         });
 
         Route::controller(CloudwaysAppReportingDataController::class)->group(function () {
@@ -55,7 +56,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(BulkCloudwaysAppReportingDataController::class)->group(function () {
-            Route::get('cloudways/app/reporting-data/bulk', 'show')->name('cloudwaysAppReportingData.show.bulk');
+            Route::get('cloudways/app/reporting-data/bulk', 'create')->name('cloudwaysAppReportingData.create.bulk');
             Route::post('cloudways/app/reporting-data/bulk', 'store')->name('cloudwaysAppReportingData.store.bulk');
         });
 
@@ -64,7 +65,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(BulkEmailReportController::class)->group(function () {
-            Route::get('cloudways/app/email-report/bulk', 'show')->name('emailReport.show.bulk');
+            Route::get('cloudways/app/email-report/bulk', 'create')->name('emailReport.create.bulk');
             Route::post('cloudways/app/email-report/bulk', 'store')->name('emailReport.store.bulk');
         });
     });

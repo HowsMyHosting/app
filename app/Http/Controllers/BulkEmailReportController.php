@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class BulkEmailReportController extends Controller
 {
-    public function show(Request $request)
+    public function create(Request $request)
     {
         if (! $request->has('cloudwaysApps')) {
             return toastResponse(

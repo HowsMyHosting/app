@@ -8,5 +8,6 @@ return [
     'deleted' => 'Successfully deleted your :resource',
     'updated' => 'Successfully updated your :resource',
     'added' => 'Successfully added your :resource',
+    'removed' => 'Successfully removed your :resource',
     'not_found' => 'No :resource found',
 ];
