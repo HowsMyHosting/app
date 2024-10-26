@@ -3,6 +3,9 @@ import ChooseReportingData from "@/pages/reporting-data/partials/choose-reportin
 import EditReportingEmail from "@/pages/email-report/partials/edit-reporting-email";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
+import { DataTable } from "@/components/custom/tables/data-table";
+import { TableToolbar } from "@/pages/cloudways-app/partials/table-toolbar";
+import { columns } from "@/pages/cloudways-app/config/columns";
 
 const Show = ({ auth, cloudwaysApp }: PageProps & { cloudwaysApp: LocalCloudwaysApp }) => {
     return (
@@ -12,7 +15,9 @@ const Show = ({ auth, cloudwaysApp }: PageProps & { cloudwaysApp: LocalCloudways
             <div className="container pb-16">
                 {cloudwaysApp.has_email_report ? (
                     // if app has email report, then setup for this app is complete
-                    <p>Here we'll show data for the app</p>
+                    <div className="mt-8">
+                        <DataTable columns={columns} data={[]} ToolbarComponent={TableToolbar} />
+                    </div>
                 ) : (
                     // if setup is not complete, then we show the setup steps
                     <>

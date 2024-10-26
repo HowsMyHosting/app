@@ -21,7 +21,7 @@ interface DataTableToolbarProps {
 export const TableToolbar = ({ table }: DataTableToolbarProps) => {
     return (
         <>
-            <div className="flex space-y-4 sm:space-y-0 sm:flex-row flex-col justify-between sm:items-center mb-4">
+            <div className="flex space-y-4 sm:space-y-0 sm:flex-row flex-col justify-between sm:items-center">
                 <h1 className="font-bold text-xl">Your Cloudways Apps</h1>
 
                 <Actions table={table} />

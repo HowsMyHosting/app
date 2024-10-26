@@ -58,7 +58,7 @@ class CloudwaysAppController extends Controller
         $cloudwaysApp->delete();
 
         return toastResponse(
-            redirect: back(),
+            redirect: route('dashboard'),
             message: __('general.success'),
             description: __('general.deleted', ['resource' => $this->resourceName]),
         );
