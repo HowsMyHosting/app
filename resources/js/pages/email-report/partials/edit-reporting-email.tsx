@@ -60,7 +60,7 @@ Your Company Name`,
             );
         }
 
-        post(isBulk ? route("emailReport.store.bulk") : route("emailReport.store", cloudwaysApp));
+        post(isBulk ? route("email-report.store.bulk") : route("email-report.store", cloudwaysApp));
     };
 
     const isValidEmail = (email: string) => {

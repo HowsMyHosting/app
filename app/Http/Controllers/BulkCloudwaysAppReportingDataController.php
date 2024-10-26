@@ -73,7 +73,7 @@ class BulkCloudwaysAppReportingDataController extends Controller
         }
 
         return toastResponse(
-            redirect: route('emailReport.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
+            redirect: route('email-report.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
             description: __('general.updated', ['resource' => $this->resourceName]),
         );

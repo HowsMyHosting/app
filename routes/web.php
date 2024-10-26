@@ -35,38 +35,38 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(CloudwaysIntegrationController::class)->group(function () {
-        Route::post('cloudways-integration', 'store')->name('cloudwaysIntegration.store');
-        Route::get('cloudways-integration/refresh-servers-list', 'refreshServersList')->name('cloudwaysIntegration.refreshServersList');
+        Route::post('cloudways-integration', 'store')->name('cloudways-integration.store');
+        Route::get('cloudways-integration/refresh-servers-list', 'refreshServersList')->name('cloudways-integration.refresh-servers-list');
     });
 
     Route::middleware(EnsureAuthUserHasCloudwaysIntegration::class)->group(function () {
         Route::controller(CloudwaysAppController::class)->group(function () {
-            Route::get('cloudways/app/view/{cloudwaysApp:uuid}', 'show')->name('cloudwaysApp.show');
-            Route::get('cloudways/app/create', 'create')->name('cloudwaysApp.create');
-            Route::delete('cloudways/app/{cloudwaysApp:uuid}', 'destroy')->name('cloudwaysApp.destroy');
+            Route::get('cloudways/app/view/{cloudwaysApp:uuid}', 'show')->name('cloudways-app.show');
+            Route::get('cloudways/app/create', 'create')->name('cloudways-app.create');
+            Route::delete('cloudways/app/{cloudwaysApp:uuid}', 'destroy')->name('cloudways-app.destroy');
         });
 
         Route::controller(BulkCloudwaysAppController::class)->group(function () {
-            Route::post('cloudways/apps/bulk', 'store')->name('cloudwaysApp.store.bulk');
-            Route::delete('cloudways/apps/bulk', 'destroy')->name('cloudwaysApp.destroy.bulk');
+            Route::post('cloudways/apps/bulk', 'store')->name('cloudways-app.store.bulk');
+            Route::delete('cloudways/apps/bulk', 'destroy')->name('cloudways-app.destroy.bulk');
         });
 
         Route::controller(CloudwaysAppReportingDataController::class)->group(function () {
-            Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'store')->name('cloudwaysAppReportingData.store');
+            Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'store')->name('cloudways-app-reporting-data.store');
         });
 
         Route::controller(BulkCloudwaysAppReportingDataController::class)->group(function () {
-            Route::get('cloudways/app/reporting-data/bulk', 'create')->name('cloudwaysAppReportingData.create.bulk');
-            Route::post('cloudways/app/reporting-data/bulk', 'store')->name('cloudwaysAppReportingData.store.bulk');
+            Route::get('cloudways/app/reporting-data/bulk', 'create')->name('cloudways-app-reporting-data.create.bulk');
+            Route::post('cloudways/app/reporting-data/bulk', 'store')->name('cloudways-app-reporting-data.store.bulk');
         });
 
         Route::controller(EmailReportController::class)->group(function () {
-            Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-email', 'store')->name('emailReport.store');
+            Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-email', 'store')->name('email-report.store');
         });
 
         Route::controller(BulkEmailReportController::class)->group(function () {
-            Route::get('cloudways/app/email-report/bulk', 'create')->name('emailReport.create.bulk');
-            Route::post('cloudways/app/email-report/bulk', 'store')->name('emailReport.store.bulk');
+            Route::get('cloudways/app/email-report/bulk', 'create')->name('email-report.create.bulk');
+            Route::post('cloudways/app/email-report/bulk', 'store')->name('email-report.store.bulk');
         });
     });
 });

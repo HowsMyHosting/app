@@ -39,7 +39,7 @@ export const Actions = ({ table }: DataTableToolbarProps) => {
     const handleDelete = () => {
         setIsLoading(true);
 
-        router.delete(route("cloudwaysApp.destroy.bulk"), {
+        router.delete(route("cloudways-app.destroy.bulk"), {
             data: {
                 cloudwaysApps: table.getFilteredSelectedRowModel().rows.map((row) => row.original.uuid),
             },
@@ -68,7 +68,7 @@ export const Actions = ({ table }: DataTableToolbarProps) => {
                             className="space-x-2"
                             onClick={() =>
                                 router.visit(
-                                    route("cloudwaysAppReportingData.create.bulk", {
+                                    route("cloudways-app-reporting-data.create.bulk", {
                                         cloudwaysApps: table
                                             .getFilteredSelectedRowModel()
                                             .rows.map((row) => row.original.id)
@@ -87,7 +87,7 @@ export const Actions = ({ table }: DataTableToolbarProps) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button size="sm" onClick={() => router.visit(route("cloudwaysApp.create"))}>
+                <Button size="sm" onClick={() => router.visit(route("cloudways-app.create"))}>
                     <PlusIcon size={16} className="mr-1" /> Add new
                 </Button>
             </div>

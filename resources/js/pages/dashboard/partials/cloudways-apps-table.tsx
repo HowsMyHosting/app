@@ -22,7 +22,7 @@ const CloudwaysAppsTable = () => {
                         Looks like you don't have any Cloudways apps at the moment. Add one below to start reporting.
                     </p>
 
-                    <Button size="sm" onClick={() => router.visit(route("cloudwaysApp.create"))}>
+                    <Button size="sm" onClick={() => router.visit(route("cloudways-app.create"))}>
                         Add your apps
                     </Button>
                 </div>

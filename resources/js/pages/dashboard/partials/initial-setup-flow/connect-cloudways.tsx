@@ -15,7 +15,7 @@ const ConnectCloudways = ({ steps }: { steps: Steps }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("cloudwaysIntegration.store"));
+        post(route("cloudways-integration.store"));
     };
 
     return (

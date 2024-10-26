@@ -21,8 +21,8 @@ class CloudwaysIntegrationController extends Controller
 
         try {
             CloudwaysApiService::createConnection(
-                email: $validated['email'],
-                apiKey: $validated['api_key'],
+                $validated['email'],
+                $validated['api_key'],
             );
         } catch (ClientException $e) {
             Log::error($e->getResponse()->getBody()->getContents());
@@ -61,7 +61,7 @@ class CloudwaysIntegrationController extends Controller
         }
 
         $cloudwaysServers = (new CloudwaysApiService($cloudwaysIntegration))
-            ->getServers(type: 'refresh');
+            ->getServers('refresh');
 
         return response()->json([
             'cloudwaysServers' => CloudwaysServerResource::collection($cloudwaysServers),

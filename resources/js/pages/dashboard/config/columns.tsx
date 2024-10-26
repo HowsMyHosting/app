@@ -43,7 +43,7 @@ export const columns: ColumnDef<LocalCloudwaysApp>[] = [
             <div className="sm:min-w-[250px]">
                 <Link
                     className="underline underline-offset-4 decoration-green-400"
-                    href={route("cloudwaysApp.show", row.original.uuid)}
+                    href={route("cloudways-app.show", row.original.uuid)}
                 >
                     {row.getValue("label")}
                 </Link>
@@ -96,7 +96,7 @@ export const RowActions = <TData,>({ row }: DataTableRowActionsProps<TData>) => 
     const handleDelete = () => {
         setIsLoading(true);
 
-        router.delete(route("cloudwaysApp.destroy", cloudwaysApp.uuid), {
+        router.delete(route("cloudways-app.destroy", cloudwaysApp.uuid), {
             onSuccess: () => {
                 setIsLoading(false);
                 setOpenDialog(false);
@@ -116,7 +116,7 @@ export const RowActions = <TData,>({ row }: DataTableRowActionsProps<TData>) => 
                     {cloudwaysApp.has_reporting_data && (
                         <DropdownMenuItem
                             onClick={() => {
-                                router.visit(route("cloudwaysApp.show", cloudwaysApp.uuid));
+                                router.visit(route("cloudways-app.show", cloudwaysApp.uuid));
                             }}
                             className="space-x-2"
                         >
@@ -127,7 +127,7 @@ export const RowActions = <TData,>({ row }: DataTableRowActionsProps<TData>) => 
                     {cloudwaysApp.has_email_report && (
                         <DropdownMenuItem
                             onClick={() => {
-                                router.visit(route("cloudwaysApp.show", cloudwaysApp.uuid));
+                                router.visit(route("cloudways-app.show", cloudwaysApp.uuid));
                             }}
                             className="space-x-2"
                         >

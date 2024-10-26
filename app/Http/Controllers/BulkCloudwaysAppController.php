@@ -35,7 +35,7 @@ class BulkCloudwaysAppController extends Controller
          */
         if (count($cloudwaysAppIds) === 1) {
             return toastResponse(
-                redirect: route('cloudwaysApp.show', $cloudwaysApp->uuid),
+                redirect: route('cloudways-app.show', $cloudwaysApp->uuid),
                 message: __('general.success'),
                 description: __('general.added', ['resource' => 'Cloudways App']),
             );
@@ -43,7 +43,7 @@ class BulkCloudwaysAppController extends Controller
         }
 
         return toastResponse(
-            redirect: route('cloudwaysAppReportingData.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
+            redirect: route('cloudways-app-reporting-data.create.bulk', ['cloudwaysApps' => implode(',', $cloudwaysAppIds)]),
             message: __('general.success'),
             description: __('general.added', ['resource' => 'Cloudways Apps']),
         );

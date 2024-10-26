@@ -37,7 +37,7 @@ class CloudwaysApiService
      */
     public static function createConnection(string $email, string $apiKey): CloudwaysIntegration
     {
-        $connectionData = (array) static::connect(email: $email, apiKey: $apiKey) + [
+        $connectionData = (array) static::connect($email, $apiKey) + [
             'email' => $email,
             'api_key' => $apiKey,
         ];

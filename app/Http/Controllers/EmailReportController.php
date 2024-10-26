@@ -38,7 +38,7 @@ class EmailReportController extends Controller
         ]);
 
         return toastResponse(
-            redirect: route('cloudwaysApp.show', $cloudwaysApp),
+            redirect: route('cloudways-app.show', $cloudwaysApp),
             message: __('general.success'),
             description: __('general.updated', ['resource' => $this->resourceName]),
         );

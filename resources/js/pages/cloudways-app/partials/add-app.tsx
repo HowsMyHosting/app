@@ -53,7 +53,7 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
         setServersLoading(true);
 
         axios
-            .get(route("cloudwaysIntegration.refreshServersList"))
+            .get(route("cloudways-integration.refresh-servers-list"))
             .then(({ data }) => {
                 setServers(data.cloudwaysServers as Server[]);
 
@@ -71,7 +71,7 @@ const AddApp = ({ existingAppIds }: { existingAppIds: Array<string> }) => {
     const handleStoreApps = () => {
         setIsLoading(true);
 
-        router.post(route("cloudwaysApp.store.bulk"), {
+        router.post(route("cloudways-app.store.bulk"), {
             apps: selectedApps,
         });
     };

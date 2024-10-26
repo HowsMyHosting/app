@@ -35,8 +35,8 @@ const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps 
 
         router.post(
             isBulk
-                ? route("cloudwaysAppReportingData.store.bulk")
-                : route("cloudwaysAppReportingData.store", cloudwaysApp?.uuid),
+                ? route("cloudways-app-reporting-data.store.bulk")
+                : route("cloudways-app-reporting-data.store", cloudwaysApp?.uuid),
             data,
         );
     };
