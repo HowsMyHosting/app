@@ -32,4 +32,11 @@ export type LocalCloudwaysApp = {
     status: "pending" | "connected" | "disconnected";
     has_email_report: boolean;
     has_reporting_data: boolean;
+    reportingData: string[];
+    emailReport?: {
+        subject: string;
+        recipients: string[];
+        intro: string;
+        signature: string;
+    };
 };

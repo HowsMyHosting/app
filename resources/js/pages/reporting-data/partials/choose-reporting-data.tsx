@@ -5,19 +5,39 @@ import { initialSetupSteps } from "@/lib/utils";
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { router, usePage } from "@inertiajs/react";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ChooseReportingDataProps = {
     showStepper?: boolean;
+    isEdit?: boolean;
     cloudwaysApp?: LocalCloudwaysApp;
     cloudwaysApps?: LocalCloudwaysApp[];
 };
 
-const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps }: ChooseReportingDataProps) => {
+const ChooseReportingData = ({
+    showStepper = false,
+    isEdit = false,
+    cloudwaysApp,
+    cloudwaysApps,
+}: ChooseReportingDataProps) => {
     const { reportingData } = usePage<PageProps & { reportingData: string[] }>().props;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [selectedReportingData, setSelectedReportingData] = useState<string[]>([]);
     const isBulk = cloudwaysApps && cloudwaysApps.length > 1;
+
+    useEffect(() => {
+        if (isEdit) {
+            setSelectedReportingData(cloudwaysApp?.reportingData || []);
+        }
+    }, [isEdit]);
+
+    const handleSubmitReportingData = () => {
+        if (isEdit) {
+            handleUpdateReportingData();
+        } else {
+            handleStoreReportingData();
+        }
+    };
 
     const handleStoreReportingData = () => {
         setIsLoading(true);
@@ -39,6 +59,19 @@ const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps 
                 : route("cloudways-app-reporting-data.store", cloudwaysApp?.uuid),
             data,
         );
+    };
+
+    const handleUpdateReportingData = () => {
+        setIsLoading(true);
+
+        const data: {
+            reportingData: string[];
+            cloudwaysApps?: string[];
+        } = {
+            reportingData: selectedReportingData,
+        };
+
+        router.patch(route("cloudways-app-reporting-data.update", cloudwaysApp?.uuid), data);
     };
 
     return (
@@ -83,6 +116,7 @@ const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps 
                     {reportingData.map((dataName) => (
                         <label
                             htmlFor={dataName}
+                            key={`${dataName}-${isEdit ? "edit" : "create"}`}
                             className={`flex items-center space-x-2 shadow px-4 py-3 border border-muted rounded-lg cursor-pointer hover:translate-y-[-2px] transition-all ${
                                 selectedReportingData.includes(dataName) ? "bg-gray-50" : ""
                             }`}
@@ -107,17 +141,33 @@ const ChooseReportingData = ({ showStepper = false, cloudwaysApp, cloudwaysApps 
                     ))}
                 </div>
 
-                <Button
-                    className="mt-6"
-                    size="sm"
-                    isLoading={isLoading}
-                    showSpinner
-                    loadingText="One moment..."
-                    onClick={handleStoreReportingData}
-                    disabled={selectedReportingData.length === 0}
-                >
-                    Continue
-                </Button>
+                <div className="space-x-2">
+                    <Button
+                        className="mt-6"
+                        size="sm"
+                        isLoading={isLoading}
+                        showSpinner
+                        loadingText="One moment..."
+                        onClick={handleSubmitReportingData}
+                        disabled={selectedReportingData.length === 0}
+                    >
+                        {isEdit ? "Update" : "Continue"}
+                    </Button>
+
+                    {isEdit && (
+                        <Button
+                            className="mt-6"
+                            size="sm"
+                            variant="secondary"
+                            isLoading={isLoading}
+                            showSpinner
+                            loadingText="One moment..."
+                            onClick={() => router.visit(route("cloudways-app.show", cloudwaysApp?.uuid))}
+                        >
+                            Cancel
+                        </Button>
+                    )}
+                </div>
             </div>
         </>
     );

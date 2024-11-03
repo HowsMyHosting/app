@@ -42,7 +42,7 @@ class BulkCloudwaysAppReportingDataController extends Controller
             ->pluck('name')
             ->toArray();
 
-        return inertia('reporting-data/show-bulk', [
+        return inertia('reporting-data/create-bulk', [
             'cloudwaysApps' => $cloudwaysApps,
             'reportingData' => $reportingData,
             'breadcrumbs' => [

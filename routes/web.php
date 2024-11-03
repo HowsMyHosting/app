@@ -14,6 +14,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
     return Inertia::render('welcome', [
         'canLogin' => Route::has('login'),
@@ -53,6 +55,8 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(CloudwaysAppReportingDataController::class)->group(function () {
             Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'store')->name('cloudways-app-reporting-data.store');
+            Route::get('cloudways/app/{cloudwaysApp:uuid}/reporting-data/edit', 'edit')->name('cloudways-app-reporting-data.edit');
+            Route::patch('cloudways/app/{cloudwaysApp:uuid}/reporting-data', 'update')->name('cloudways-app-reporting-data.update');
         });
 
         Route::controller(BulkCloudwaysAppReportingDataController::class)->group(function () {
@@ -61,7 +65,9 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(EmailReportController::class)->group(function () {
+            Route::get('cloudways/app/{cloudwaysApp:uuid}/reporting-email/edit', 'edit')->name('email-report.edit');
             Route::post('cloudways/app/{cloudwaysApp:uuid}/reporting-email', 'store')->name('email-report.store');
+            Route::patch('cloudways/app/{cloudwaysApp:uuid}/reporting-email', 'update')->name('email-report.update');
         });
 
         Route::controller(BulkEmailReportController::class)->group(function () {
@@ -70,5 +76,3 @@ Route::middleware('auth')->group(function () {
         });
     });
 });
-
-require __DIR__.'/auth.php';

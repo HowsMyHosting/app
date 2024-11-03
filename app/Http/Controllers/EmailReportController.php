@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocalCloudwaysAppResource;
 use App\Models\CloudwaysApp;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,8 @@ class EmailReportController extends Controller
 
     public function store(Request $request, CloudwaysApp $cloudwaysApp)
     {
+        $this->formatRecipients($request);
+
         $validated = $request->validate([
             'subject' => 'required|string',
             'recipients' => 'required|array',
@@ -42,5 +45,47 @@ class EmailReportController extends Controller
             message: __('general.success'),
             description: __('general.updated', ['resource' => $this->resourceName]),
         );
+    }
+
+    public function edit(CloudwaysApp $cloudwaysApp)
+    {
+        return inertia('email-report/edit', [
+            'cloudwaysApp' => (new LocalCloudwaysAppResource($cloudwaysApp->load('emailReport')))->resolve(),
+        ]);
+    }
+
+    public function update(Request $request, CloudwaysApp $cloudwaysApp)
+    {
+        $this->formatRecipients($request);
+
+        $validated = $request->validate([
+            'subject' => 'required|string',
+            'recipients' => 'required|array',
+            'recipients.*' => 'required|email',
+            'intro' => 'nullable|string',
+            'signature' => 'nullable|string',
+        ]);
+
+        $cloudwaysApp->emailReport->update([
+            'subject' => $validated['subject'],
+            'recipients' => $validated['recipients'],
+            'intro' => $validated['intro'],
+            'signature' => $validated['signature'],
+        ]);
+
+        return toastResponse(
+            redirect: route('cloudways-app.show', $cloudwaysApp),
+            message: __('general.success'),
+            description: __('general.updated', ['resource' => $this->resourceName]),
+        );
+    }
+
+    protected function formatRecipients(Request $request): void
+    {
+        // trim the whitespace too for each email
+        $recipients = array_map('trim', explode(',', $request->recipients));
+
+        // set the recipients on the request
+        $request->merge(['recipients' => $recipients]);
     }
 }

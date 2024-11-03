@@ -15,44 +15,64 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { initialSetupSteps } from "@/lib/utils";
 import { LocalCloudwaysApp } from "@/types";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import { UUID } from "crypto";
 import { MailPlusIcon } from "lucide-react";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useEffect } from "react";
 
 type EditReportingEmailProps = {
     showStepper?: boolean;
+    isEdit?: boolean;
     cloudwaysApp?: LocalCloudwaysApp;
     cloudwaysApps?: LocalCloudwaysApp[];
 };
 
 type BulkRecipients = {
     cloudwaysAppUuid: UUID;
-    recipients: string[];
+    recipients: string;
 };
 
-const EditReportingEmail = ({ showStepper = false, cloudwaysApp, cloudwaysApps }: EditReportingEmailProps) => {
+const EditReportingEmail = ({
+    showStepper = false,
+    isEdit = false,
+    cloudwaysApp,
+    cloudwaysApps,
+}: EditReportingEmailProps) => {
     const isBulk = cloudwaysApps && cloudwaysApps.length > 1;
 
-    const { setData, post, processing, errors, data } = useForm({
-        subject: `${isBulk ? `[$appName]` : cloudwaysApp?.label} Monthly Report`,
-        recipients: [] as string[],
-        intro: `Hello 👋,
+    const { setData, patch, post, processing, errors, data } = useForm({
+        subject: isEdit
+            ? cloudwaysApp?.emailReport?.subject
+            : `${isBulk ? `[$appName]` : cloudwaysApp?.label} Monthly Report`,
+        recipients: isEdit ? cloudwaysApp?.emailReport?.recipients?.join(", ") || "" : "",
+        intro: isEdit
+            ? cloudwaysApp?.emailReport?.intro
+            : `Hello 👋,
 
 Here's your monthly report for ${isBulk ? `[$appName]` : cloudwaysApp?.label}.`,
-        signature: `Best regards,
+        signature: isEdit
+            ? cloudwaysApp?.emailReport?.signature
+            : `Best regards,
 Your Company Name`,
         cloudwaysApps: [] as string[],
         bulkRecipients:
             cloudwaysApps?.map((app) => ({
                 cloudwaysAppUuid: app.uuid,
-                recipients: [],
+                recipients: app.emailReport?.recipients?.join(", ") || "",
             })) || ([] as BulkRecipients[]),
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
+        if (isEdit) {
+            handleUpdateReportingEmail();
+        } else {
+            handleStoreReportingEmail();
+        }
+    };
+
+    const handleStoreReportingEmail = () => {
         if (isBulk) {
             setData(
                 "cloudwaysApps",
@@ -63,13 +83,28 @@ Your Company Name`,
         post(isBulk ? route("email-report.store.bulk") : route("email-report.store", cloudwaysApp));
     };
 
+    const handleUpdateReportingEmail = () => {
+        patch(route("email-report.update", cloudwaysApp));
+    };
+
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-    const allEmailsValidForApp = (emails: string[]) => {
-        return emails.length > 0 && emails.every(isValidEmail);
+    const allEmailsValidForApp = (emails: string) => {
+        if (emails.length === 0) return false;
+
+        const emailList = emails.split(",").map((email) => email.trim());
+
+        // Check for duplicates
+        const uniqueEmails = new Set(emailList);
+        if (uniqueEmails.size !== emailList.length) {
+            return false;
+        }
+
+        // Validate email format
+        return emailList.every(isValidEmail);
     };
 
     const countValidAppConfigurations = () => {
@@ -97,7 +132,7 @@ Your Company Name`,
                         <Sheet>
                             <SheetTrigger asChild>
                                 <div className="flex items-center space-x-2.5 mb-4">
-                                    <Button size="sm" variant="secondary">
+                                    <Button type="button" size="sm" variant="secondary">
                                         <MailPlusIcon size={15} className="mr-[7px]" /> Add Recipients
                                     </Button>
 
@@ -129,9 +164,9 @@ Your Company Name`,
                                                 label={`${app.label} recipient(s)`}
                                                 placeholder="john@doe.com, jane@doe.com"
                                                 value={
-                                                    data.bulkRecipients
-                                                        .find((recipient) => recipient.cloudwaysAppUuid === app.uuid)
-                                                        ?.recipients.join(", ") || ""
+                                                    data.bulkRecipients.find(
+                                                        (recipient) => recipient.cloudwaysAppUuid === app.uuid,
+                                                    )?.recipients || ""
                                                 }
                                                 onChange={(e) =>
                                                     setData(
@@ -140,9 +175,7 @@ Your Company Name`,
                                                             if (recipient.cloudwaysAppUuid === app.uuid) {
                                                                 return {
                                                                     ...recipient,
-                                                                    recipients: e.target.value
-                                                                        .split(",")
-                                                                        .map((email) => email.trim()),
+                                                                    recipients: e.target.value,
                                                                 };
                                                             }
                                                             return recipient;
@@ -170,14 +203,9 @@ Your Company Name`,
                                 label="Recipient(s)"
                                 errorMessage={errors.recipients}
                                 placeholder="john@doe.com, jane@doe.com"
-                                autoFocus
-                                value={data.recipients.join(", ")}
-                                onChange={(e) =>
-                                    setData(
-                                        "recipients",
-                                        e.target.value.split(",").map((recipient) => recipient.trim()),
-                                    )
-                                }
+                                autoFocus={!isEdit}
+                                value={data.recipients}
+                                onChange={(e) => setData("recipients", e.target.value)}
                             />
 
                             <p className="text-xs text-muted-foreground mt-[5px]">
@@ -218,18 +246,31 @@ Your Company Name`,
                         />
                     </div>
 
-                    <Button
-                        type="submit"
-                        size="sm"
-                        loadingText="Saving..."
-                        disabled={
-                            !data.subject ||
-                            (!isBulk && !allEmailsValidForApp(data.recipients)) ||
-                            (isBulk && countValidAppConfigurations() !== cloudwaysApps.length)
-                        }
-                    >
-                        {isBulk ? "Save emails" : "Save email"}
-                    </Button>
+                    <div className="space-x-2">
+                        <Button
+                            type="submit"
+                            size="sm"
+                            loadingText="Saving..."
+                            disabled={
+                                !data.subject ||
+                                (!isBulk && !allEmailsValidForApp(data.recipients)) ||
+                                (isBulk && countValidAppConfigurations() !== cloudwaysApps.length)
+                            }
+                        >
+                            {isEdit ? "Update email" : isBulk ? "Save emails" : "Save email"}
+                        </Button>
+
+                        {isEdit && (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="secondary"
+                                onClick={() => router.visit(route("cloudways-app.show", cloudwaysApp))}
+                            >
+                                Cancel
+                            </Button>
+                        )}
+                    </div>
                 </Form>
             </div>
         </>

@@ -116,7 +116,7 @@ export const RowActions = <TData,>({ row }: DataTableRowActionsProps<TData>) => 
                     {cloudwaysApp.has_reporting_data && (
                         <DropdownMenuItem
                             onClick={() => {
-                                router.visit(route("cloudways-app.show", cloudwaysApp.uuid));
+                                router.visit(route("cloudways-app-reporting-data.edit", cloudwaysApp.uuid));
                             }}
                             className="space-x-2"
                         >
@@ -127,7 +127,7 @@ export const RowActions = <TData,>({ row }: DataTableRowActionsProps<TData>) => 
                     {cloudwaysApp.has_email_report && (
                         <DropdownMenuItem
                             onClick={() => {
-                                router.visit(route("cloudways-app.show", cloudwaysApp.uuid));
+                                router.visit(route("email-report.edit", cloudwaysApp.uuid));
                             }}
                             className="space-x-2"
                         >

@@ -55,11 +55,17 @@ export const Actions = () => {
                             <SendIcon color="#9ca3af" size={15} />
                             <span>Send test email</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="space-x-2">
+                        <DropdownMenuItem
+                            className="space-x-2"
+                            onClick={() => router.visit(route("cloudways-app-reporting-data.edit", cloudwaysApp.uuid))}
+                        >
                             <Edit3Icon color="#9ca3af" size={15} />
                             <span>Edit reporting data</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="space-x-2">
+                        <DropdownMenuItem
+                            className="space-x-2"
+                            onClick={() => router.visit(route("email-report.edit", cloudwaysApp.uuid))}
+                        >
                             <MailCheckIcon color="#9ca3af" size={15} />
                             <span>Edit email</span>
                         </DropdownMenuItem>

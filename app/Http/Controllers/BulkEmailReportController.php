@@ -30,7 +30,7 @@ class BulkEmailReportController extends Controller
             );
         }
 
-        return inertia('email-report/show-bulk', [
+        return inertia('email-report/create-bulk', [
             'cloudwaysApps' => $cloudwaysApps,
             'breadcrumbs' => [
                 ['label' => 'Dashboard', 'href' => route('dashboard')],
@@ -41,6 +41,19 @@ class BulkEmailReportController extends Controller
 
     public function store(Request $request)
     {
+        // Format comma-separated emails into arrays
+        $bulkRecipients = collect($request->bulkRecipients)->map(function ($bulk) {
+            return [
+                'cloudwaysAppUuid' => $bulk['cloudwaysAppUuid'],
+                'recipients' => collect($bulk['recipients'])->map(function ($emailString) {
+                    return array_map('trim', explode(',', $emailString));
+                })->flatten()->toArray(),
+            ];
+        })->toArray();
+
+        // Merge back into request
+        $request->merge(['bulkRecipients' => $bulkRecipients]);
+
         $validated = $request->validate([
             'bulkRecipients' => ['required', 'array'],
             'bulkRecipients.*.cloudwaysAppUuid' => ['required', 'string'],

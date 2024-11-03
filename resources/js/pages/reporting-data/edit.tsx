@@ -3,16 +3,16 @@ import ChooseReportingData from "@/pages/reporting-data/partials/choose-reportin
 import { LocalCloudwaysApp, PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
-const ShowBulk = ({ auth, cloudwaysApps }: PageProps & { cloudwaysApps: LocalCloudwaysApp[] }) => {
+const Edit = ({ auth, cloudwaysApp }: PageProps & { cloudwaysApp: LocalCloudwaysApp }) => {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Choose Reporting Data" />
 
             <div className="container pb-16">
-                <ChooseReportingData cloudwaysApps={cloudwaysApps} showStepper={!auth.user.finished_initial_setup} />
+                <ChooseReportingData cloudwaysApp={cloudwaysApp} isEdit />
             </div>
         </AuthenticatedLayout>
     );
 };
 
-export default ShowBulk;
+export default Edit;
