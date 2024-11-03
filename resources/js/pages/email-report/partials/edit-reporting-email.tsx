@@ -54,7 +54,7 @@ Here's your monthly report for ${isBulk ? `[$appName]` : cloudwaysApp?.label}.`,
             ? cloudwaysApp?.emailReport?.signature
             : `Best regards,
 Your Company Name`,
-        cloudwaysApps: [] as string[],
+        cloudwaysApps: isBulk ? cloudwaysApps?.map((app) => app.uuid) : [],
         bulkRecipients:
             cloudwaysApps?.map((app) => ({
                 cloudwaysAppUuid: app.uuid,
@@ -73,13 +73,6 @@ Your Company Name`,
     };
 
     const handleStoreReportingEmail = () => {
-        if (isBulk) {
-            setData(
-                "cloudwaysApps",
-                cloudwaysApps.map((app) => app.uuid),
-            );
-        }
-
         post(isBulk ? route("email-report.store.bulk") : route("email-report.store", cloudwaysApp));
     };
 

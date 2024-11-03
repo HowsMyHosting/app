@@ -51,6 +51,11 @@ class EmailReportController extends Controller
     {
         return inertia('email-report/edit', [
             'cloudwaysApp' => (new LocalCloudwaysAppResource($cloudwaysApp->load('emailReport')))->resolve(),
+            'breadcrumbs' => [
+                ['label' => 'Dashboard', 'href' => route('dashboard')],
+                ['label' => $cloudwaysApp->label, 'href' => route('cloudways-app.show', $cloudwaysApp)],
+                ['label' => 'Edit Email Report', 'href' => ''],
+            ],
         ]);
     }
 

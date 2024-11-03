@@ -41,7 +41,7 @@ class CloudwaysAppReportingDataController extends Controller
             'breadcrumbs' => [
                 ['label' => 'Dashboard', 'href' => route('dashboard')],
                 ['label' => $cloudwaysApp->label, 'href' => route('cloudways-app.show', $cloudwaysApp)],
-                ['label' => 'Edit', 'href' => ''],
+                ['label' => 'Edit Reporting Data', 'href' => ''],
             ],
         ]);
     }
